@@ -17,7 +17,7 @@ du menu <a href="https://promenade.imcce.fr/fr/pages2/216.html" target="_blank">
 </ol>
 <h2>Liens vers les pages corrigées et retour à ce portail</h2>
 <p>Les pages sont présentées en dehors du cadre général de l'application complète, avec un contexte minimum suffisant pour apprécier les améliorations proposées.</p>
-<p>Pour revenir à ce portail, cliquer sur "Promenade" en haut à gauche dans les pages corrigées.</p>
+<p>Pour **revenir à ce portail**, cliquer sur "**Promenade**" en haut à gauche dans les pages corrigées.</p>
 <h2>Correspondances des calendriers, saisons et phases de lune (répertoire "pages4")</h2>
 <ul>
 	<li><a href="./428.html">Calendrier origine: grégorien </a></li>
