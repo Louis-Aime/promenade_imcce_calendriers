@@ -35,6 +35,6 @@ du menu <a href="https://promenade.imcce.fr/fr/pages2/216.html" target="_blank">
 	<li><a href="./554.html">Fêtes musulmanes dans le calendrier grégorien</a></li>
 </ul>
 
-## Bug à examiner par GitHub
-Link to [an existing file named "503.html"](./503.html) fires an Http error "503"
+<h2>Bug à examiner par GitHub</h2>
+<p>Link to <a href="./503.html">an existing file named</a> fires an Http error "503".</p>
 
