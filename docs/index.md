@@ -1,12 +1,37 @@
 # "Promenade dans le système solaire (IMCCE - France)" Démonstration des corrections de Miletus (2019)
 
-Pour intégrer ces corrections dans l'application originale: 
- * Utiliser uniquement les répertoires pages4 et pages5 du dépôt GitHub, non pas ceux du répertoire docs.
- * Retirer les fichiers 51.html et 51.txt du répertoire pages5;
- * Copier les autres fichiers du répertoire pages5 dans le répertoire correspondant de l'application;
- * Copier les fichiers du répertoire pages4 dans le répertoire correspondant de l'application.
- 
-L'application originale est réservée à l'usage d'information et de pédagogie. Consultez la déclaration de droits d'auteur correspondante en vigueur.
-Les présentes pages peuvent être insérées librement dans l'application originale et dans le respect de ses propres droits.
- 
-[Portail d'accès à la documentation et aux pages corrigées]("./51.html")
+<p> Miletus a proposé ces pages corrigées au propriétaire de l'application,
+l'IMCCE (Observatoire de Paris), le 30 mai 2019, accompagnées de la note ci-après.
+Depuis lors, l'IMCCE a corrigé la mention de la date de passage au calendrier grégorien sur la page "Calendrier origine: grégorien".
+</p>
+<h2>Corrections, applications en ligne, modalités de mise à jour</h2>
+<p>La <a href="./2019-05-28_Notes_adaptations.html" target="_blank">Note sur les adaptations des pages</a>
+rend compte des modifications portées.</p>
+<p>Aux fins de comparaison, les pages actuellement en ligne dont nous proposons les corrections sont accessibles à partir
+du menu <a href="https://promenade.imcce.fr/fr/pages2/216.html" target="_blank">Comprendre/Astronomie de position</a> de l'application.
+<p>Pour l'intégration à l'application originale "Promenade", proposée par l'Observatoire de Paris en téléchargement:</p>
+<ol>
+	<li>Retirer les fichiers 51.html et 51.txt du répertoire pages5;</li>
+	<li>Copier les autres fichiers du répertoire pages5 dans le répertoire correspondant de l'application;</li>
+	<li>Copier les fichiers du répertoire pages4 dans le répertoire correspondant de l'application.</li>
+</ol>
+<h2>Liens vers les pages corrigées et retour à ce portail</h2>
+<p>Les pages sont présentées en dehors du cadre général de l'application complète, avec un contexte minimum suffisant pour apprécier les améliorations proposées.</p>
+<p>Pour revenir à ce portail, cliquer sur "Promenade" en haut à gauche dans les pages corrigées.</p>
+<h2>Correspondances des calendriers, saisons et phases de lune (répertoire "pages4")</h2>
+<ul>
+	<li><a href="./428.html">Calendrier origine: grégorien </a></li>
+	<li><a href="./429.html">Calendrier origine: julien </a></li>
+	<li><a href="./432.html">Calendrier origine: israélite </a></li>
+	<li><a href="./433.html">Calendrier origine: jour julien </a></li>
+	<li><a href="./439.html">Dates des saisons </a></li>
+	<li><a href="./441.html">Phases de lune </a></li>
+</ul>
+<h2>Heure légale et fêtes (répertoire "pages5")</h2>
+<ul>
+	<li><a href="./503.html">Heure légale en France</a></li>
+	<li><a href="./552.html">Fêtes chrétiennes dans le calendrier grégorien</a></li>
+	<li><a href="./553.html">Fêtes israélites dans le calendrier grégorien</a></li>
+	<li><a href="./554.html">Fêtes musulmanes dans le calendrier grégorien</a></li>
+</ul>
+
