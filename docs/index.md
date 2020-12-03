@@ -36,5 +36,5 @@ du menu <a href="https://promenade.imcce.fr/fr/pages2/216.html" target="_blank">
 </ul>
 
 <h2>Bug à examiner par GitHub</h2>
-<p>Link to <a href="./503.html">an existing file named</a> fires an Http error "503".</p>
+<p>Link to <a href="./503.html">an existing file named "503.html"</a> fires an Http error "503".</p>
 
