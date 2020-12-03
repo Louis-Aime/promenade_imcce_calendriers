@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<!-- Mil001: M2019-06-07
+- Aggrandir -> Agrandir
+- Accentuation des mots
+- Contrôle champ de saisie
+- Initialisation de l'année
+- Validation du champ unique du formulaire lance le calcul
+- Balise INPUT d'année contrôle la validité
+- Correction phrases incomplètes dans les réponses, rétablir "à" et "é"
+-->
+<HTML>
+  <HEAD>
+    <META http-equiv="Content-type" content="text/html; charset=utf-8" />
+   <meta name="Auteurs" content="P.Rocher,G.Satre">
+   <meta name="Keywords" content="astronomie,calendrier,heure légale,saisons">
+   <meta name="Copyright" content="I.M.C.C.E. (CNRS &amp; MEN)">
+   <TITLE>Comprendre - Calculs astronomiques - Heure légale</TITLE>
+
+<!-- pour la comptabilité pour internet explorer 9-->
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+    <link rel="stylesheet" href="./style-dernier13.css"/>
+    <script src="./jquery-1.11.1.min.js"></script>
+    <script src="./jquery.mobile.custom.min.js"></script>
+    <script src="./script.js"></script>
+
+  <!--[if lt IE 7]>
+  <link rel="stylesheet" href="style_ie.css"/>
+  <![endif]-->
+
+<!-- Date de la dernière mise-à-jour par N. Thouvenin : 24/05/2013 -->
+<!-- Mise à jour limte 2016 à 2021 P. Rocher 24/01/2019 -->
+     <SCRIPT LANGUAGE="JavaScript">
+<!-- hide this script tag's contents from old browsers
+w = self;
+
+function oar() { /*objets a ranger*/
+    this.OK
+    this.chaine
+    this.JSEM
+    this.CODE1
+    this.CODE2
+     }
+
+function date() {
+    this.JJD
+    this.AN
+    this.MOIS
+    this.JOUR
+    this.TYPEA
+    this.NBMOIS
+     }
+
+function trunc(x) {
+if (x>0.0) return(Math.floor(x));
+else return Math.ceil(x);
+}
+
+function round(x) {
+if (x>0.0) return(Math.floor(x+0.5));
+else return Math.ceil(x-0.5);
+}
+
+
+ function JJDATEJ()
+   {
+     Z1=date.JJD+0.5;
+     Z=trunc(Z1);
+     A=Z;
+     B=A+1524;
+     C=trunc((B-122.1)/365.25);
+     D=trunc(365.25*C);
+     E=trunc((B-D)/30.6001);
+     date.JOUR=trunc(B-D-trunc(30.6001*E));
+     if(E<13.5)date.MOIS = trunc(E-1);
+      else date.MOIS = trunc(E-13);
+     if(date.MOIS>=3) date.AN = trunc(C-4716);
+      else   date.AN = trunc(C-4715);
+                    }
+
+function JJDATE ()
+   {
+     Z1=date.JJD+0.5;
+     Z=trunc(Z1);
+     if (Z<2299161) A=Z;
+      else {ALPHA=trunc((Z-1867216.25)/36524.25);
+           A=Z+1+ALPHA-trunc(ALPHA/4);}
+     B=A+1524;
+     C=trunc((B-122.1)/365.25);
+     D=trunc(365.25*C);
+     E=trunc((B-D)/30.6001);
+     date.JOUR=trunc(B-D-trunc(30.6001*E));
+     if(E<13.5) date.MOIS = trunc(E-1);
+      else date.MOIS = trunc(E-13);
+     if(date.MOIS>=3) date.AN = trunc(C-4716);
+      else   date.AN = trunc(C-4715);
+    }
+
+function BISG()
+     /*         TYPEA = 0 annee commune.                         */
+     /*         TYPEA = 1 annee bissextile.                      */
+
+   { date.NBMOIS=12;
+     date.TYPEA=0;
+     if ((date.AN % 4)==0)               date.TYPEA=1;
+     if ((date.AN % 100)==0 && (date.AN % 400)!=0) date.TYPEA=0;}
+
+
+function BISJ()
+     /*         TYPEA = 0 annee commune.                         */
+     /*         TYPEA = 1 annee bissextile.                      */
+
+   { date.NBMOIS=12;
+     if ((date.AN % 4)==0) date.TYPEA=1; else date.TYPEA=0;  }
+
+function JULIEN()
+   {  IJOUR=date.JOUR;
+      Y=date.AN;
+      M=date.MOIS;
+      A = Y + M/100 + IJOUR/10000;
+      if(date.MOIS<=2){Y=Y-1;M=M+12;};
+      if(Y<0)     date.JJD = Math.ceil(365.25*Y-0.75);
+      else date.JJD = Math.floor(365.25*Y);
+      date.JJD = date.JJD+trunc(30.6001*(M+1))+IJOUR+1720994.5;
+      if(A>1582.1014) date.JJD=date.JJD+2-trunc(Y/100)+trunc(trunc(Y/100)/4);
+    }
+
+function NOMJOUR()
+  {  A=((eval(date.JJD)+2.5)/7)%1.0;
+     oar.JSEM=round(A*7);       }
+
+function HRELEG(form)
+   {
+   dat1639=new Array("14 juin","1 octobre","24 mars","7 octobre","9 mars","6 octobre",
+"1 mars","5 octobre","14 février","23 octobre","14 mars","25 octobre","25 mars","7 octobre",
+"31 mars","6 octobre","29 mars","4 octobre","4 avril","3 octobre","17 avril","2 octobre",
+"9 avril","1 octobre","14 avril","6 octobre","20 avril","5 octobre","12 avril","4 octobre",
+"18 avril","3 octobre","2 avril","1 octobre","25 mars","7 octobre","7 avril","6 octobre",
+"30 mars","5 octobre","18 avril","3 octobre","3 avril","2 octobre","26 mars","1 octobre",
+"15 avril","18 novembre");
+
+ dat4145=new Array("4 mai à 23h","5 octobre à 22h","8 mars à 23h","2 novembre à 1h",
+"29 mars à 1h","4 octobre à 1h","3 avril à 1h","7 octobre à 23h","2 avril à 1h","16 septembre à 1h");
+/* J'ai ajouté une ligne à ce tableau date pour 2017 à 2021 P. Rocher 24/01/2019 */
+ dat7711=new Array("3 avril","25 septembre","2 avril","1 octobre","1 avril","30 septembre",
+"6 avril","28 septembre","29 mars","27 septembre","28 mars","26 septembre","27 mars","25 septembre",
+"25 mars","30 septembre","31 mars","29 septembre","30 mars","28 septembre","29 mars","27 septembre",
+"27 mars","25 septembre","26 mars","24 septembre","25 mars","30 septembre","31 mars","29 septembre",
+"29 mars","27 septembre","28 mars","26 septembre","27 mars","25 septembre","26 mars","24 septembre",
+"31 mars","27 octobre","30 mars","26 octobre","29 mars","25 octobre","28 mars","31 octobre",
+"26 mars","29 octobre","25 mars","28 octobre","31 mars","27 octobre","30 mars","26 octobre","28 mars",
+"31 octobre","27 mars","30 octobre","26 mars","29 octobre","25 mars","28 octobre","30 mars","26 octobre","29 mars","25 octobre","28 mars","31 octobre","27 mars","30 octobre"
+,"25 mars","28 octobre","31 mars","27 octobre","30 mars","26 octobre","29 mars","25 octobre","27 mars","30 octobre",
+"26 mars","29 octobre","25 mars","28 octobre","31 mars","27 octobre","29 mars","25 octobre","28 mars","31 octobre"); 
+
+ if (date.AN>=1911 && date.AN<=1915) {
+  document.form.HEURLEG.value="L'heure légale est identique au temps universel toute l'année.";
+                               }
+ if (date.AN>=1916 && date.AN<=1939) {
+  document.form.HEURLEG.value="L'heure légale est le temps universel (UT) pour l'heure d'hiver, augmenté de 1h pour l'heure d'été.\r\n"
++ "\r\nL'année commence à l'heure d'hiver jusqu'au \r\n" +
+dat1639[(date.AN-1916)*2] +" à 23h.\r\n" +
+"On passe alors à l'heure d'été jusqu'au \r\n" + dat1639[1+(date.AN-1916)*2] +" à 23h, date à laquelle on revient à l'heure d'hiver jusqu'à la fin de l'année.";
+                               }
+ if (date.AN==1940) {
+  document.form.HEURLEG.value="De 1940 à 1942 la correction au temps universel pour déterminer "+
+"l'heure légale a été assez confuse. Nous affichons les valeurs utilisées en zone libre "+
+"jusqu'au 2 novembre 1942, et dans toute la France ensuite.\r\n" +
+"En zone libre la correction a été de 1h à partir de 25 février à 2h.\r\n" +
+"En zone occupée, la correction a été de 2h à partir du 9 mai 1940 " +
+"(ou plus tard selon les localités).";
+                               }
+ if (date.AN>=1941 && date.AN<=1945) {
+  document.form.HEURLEG.value="L'heure légale est le temps universel (UT) + 1h pour l'heure d'hiver, et + 2h pour l'heure d'été.\r\n"
++ "\r\nL'année commence à l'heure d'hiver jusqu'au \r\n" +
+dat4145[(date.AN-1941)*2] + ".\r\n" +
+"On passe alors à l'heure d'été jusqu'au \r\n" + dat4145[1+(date.AN-1941)*2] + ", date à laquelle on revient à l'heure d'hiver jusqu'à la fin de l'année.";
+                               }
+
+ if (date.AN>=1946 && date.AN<=1975) {
+  document.form.HEURLEG.value="L'heure légale est égale, toute l'année, au temps universel plus 1h.";
+                               }
+   if (date.AN==1976) {
+  document.form.HEURLEG.value="L'heure légale est le temps universel (UT) + 1h pour l'heure d'hiver, et + 2h pour l'heure d'été.\r\n"
++ "\r\nL'année commence à l'heure d'hiver jusqu'au \r\n" +
+"28 mars" +" à 0h.\r\n" +
+"On passe alors à l'heure d'été jusqu'au \r\n" + "25 septembre" +" à 23h, date à laquelle on revient à l'heure d'hiver jusqu'à la fin de l'année.";
+                               }
+   if (date.AN>=1977 && date.AN<1984) {
+  document.form.HEURLEG.value="L'heure légale est le temps universel (UT) + 1h pour l'heure d'hiver, et + 2h pour l'heure d'été.\r\n"
++ "\r\nL'année commence à l'heure d'hiver jusqu'au \r\n" +
+dat7711[(date.AN-1977)*2] +" à 1h.\r\n" +
+"On passe alors à l'heure d'été jusqu'au \r\n" + dat7711[1+(date.AN-1977)*2] +" à 1h, date à laquelle on revient à l'heure d'hiver jusqu'à la fin de l'année.";
+                               } 					 
+ /*-- J'ai modifié 2016 en 2021 dans le test suivant P. Rocher 24/01/2019 */
+   if (date.AN>=1984 && date.AN<=2021) {
+  document.form.HEURLEG.value="L'heure légale est le temps universel coordonné (UTC) + 1h pour l'heure d'hiver, et + 2h pour l'heure d'été.\r\n"
++ "\r\nL'année commence à l'heure d'hiver jusqu'au \r\n" +
+dat7711[(date.AN-1977)*2] +" à 1h.\r\n" +
+"On passe alors à l'heure d'été jusqu'au \r\n" + dat7711[1+(date.AN-1977)*2] +" à 1h, date à laquelle on revient à l'heure d'hiver jusqu'à la fin de l'année.";
+                               }
+
+ }
+
+ function suivan(form) {
+date.AN=(form.nyear.value=="") ? "0":eval(form.nyear.value);
+date.AN++;	 
+/* J'ai modifié 2016 en 2021 dans le test suivant P. Rocher 24/01/2019 */
+ if (date.AN<1911 || date.AN>2021) {alert('hors limites');
+                                       date.AN--; }
+form.nyear.value=date.AN;
+HRELEG(form);
+}
+
+function preced(form) {
+date.AN=(form.nyear.value=="") ? "0":eval(form.nyear.value);
+date.AN--;
+/* J'ai modifié 2016 en 2021 dans le test suivant P. Rocher 24/01/2019 */
+ if (date.AN<1911 || date.AN>2021) {alert('hors limites');
+                                       date.AN++; }
+form.nyear.value=date.AN;
+HRELEG(form);
+}
+
+function couran(form) {
+date.AN=(form.nyear.value=="") ? "0":eval(form.nyear.value);
+/* J'ai modifié 2016 en 2021 dans le test suivant P. Rocher 24/01/2019 */
+ if (date.AN<1911 || date.AN>2021) { alert('hors limites');
+                                        return; }
+HRELEG(form);
+}
+
+function dateinit(form) {
+Todays=new Date();
+/*selon les navigateurs la fonction getyear de Javascript
+  donne 100 ou 2000 (avant 2000 donnait toujours le mill sime*/
+
+if (Todays.getFullYear() == 100)
+ document.form.nyear.value=1900 + Todays.getFullYear();
+else
+ document.form.nyear.value=Todays.getFullYear();
+oar.OK=0;
+}
+
+// done hiding from old browsers -->
+
+</script>
+
+</HEAD>
+
+<BODY onLoad="dateinit(this.form)">
+
+
+    <div id="bloc_page">
+
+
+
+      <header id="ancre">
+	<a href="./index"><img class="image-bandeau" src="./bandeau.png" alt="" /></a>
+
+ 
+	 
+ 
+ 
+<ul id="menu">
+    <li>
+        <a href="../pages3/37.html"><span class="police_chap">Encyclopédie</span> </a>
+
+        <ul>
+            <li><a href="../pages1/19.html">Caractéristiques <br /> des planètes</a></li>
+
+            <li>
+                <a href="../pages1/139.html">Choisir un corps céleste<br />dans le système solaire</a>
+                <ul>
+                    <li><a href="../pages1/131.html">Soleil</a></li>
+                    <li><a href="../pages6/82.html">Mercure</a></li>
+
+                    <li><a href="../pages1/152.html">Vénus</a></li>
+                    <li><a href="../pages1/176.html">Terre</a></li>
+
+                    <li><a href="../pages1/177.html">Lune</a></li>
+                    <li><a href="../pages6/70.html">Mars</a></li>
+
+                    <li><a href="../pages5/54.html">Jupiter</a></li>
+                    <li><a href="../pages1/119.html">Saturne</a></li>
+
+                    <li><a href="../pages1/148.html">Uranus</a></li>
+                    <li><a href="../pages6/89.html">Neptune</a></li>
+
+                    <li><a href="../pages1/110.html">Pluton</a></li>
+                    <li><a href="../pages6/9.html">Astéroides</a></li>
+
+                    <li><a href="../pages2/23.html">Comètes</a></li>
+
+                </ul>
+            </li>
+            <li><a href="../pages3/376.html">Le système solaire <br /> en chiffres</a></li>
+
+            <li><a href="../pages2/240.html">Origine des noms</a></li>
+
+            <li><a href="../pages2/257.html">Classification des corps</a></li>
+        </ul>
+
+    </li>
+    <li>
+        <a href="../pages3/32.html"><span class="police_chap">Découvertes</span> </a>
+        <ul>
+            <li><a href="../pages3/312.html">Astronomes célèbres</a></li>
+
+            <li><a href="../pages1/168.html">Dates importantes</a></li>
+
+            <li>
+                <a href="../pages1/168.html">Découvertes dans <br />le système solaire</a>
+                <ul>
+                    <li>
+                        <a href="../pages3/371.html">Soleil</a>
+                        <ul>
+                            <li>
+                                <a href="../pages3/374.html">Taches solaires</a>
+                            </li>
+
+                            <li>
+                                <a href="../pages1/133.html">Eclipses solaires</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages6/83.html">Mercure</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/83.html">Avance du périhélie</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../pages1/155.html">Vénus</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages1/155.html">Phases</a>
+                            </li>
+                            <li>
+                                <a href="../pages1/155.html">Rotations</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages1/183.html">Terre</a>
+                        <ul>
+                            <li>
+                                <a href="../pages1/183.html">Forme</a>
+                            </li>
+
+                            <li>
+                                <a href="../pages1/183.html">Mouvement</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages6/64.html">Lune</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/64.html">Cratères</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/64.html">Surface</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../pages3/372.html">Mars</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages3/372.html">Surfaces</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/75.html">Canaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/76.html">Période de rotation</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/77.html">Satellites</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages5/56.html">Jupiter</a>
+                        <ul>
+                            <li>
+                                <a href="../pages5/56.html">Satellites</a>
+                            </li>
+                            <li>
+                                <a href="../pages5/57.html">Anneaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages5/58.html">Tache rouge</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages1/124.html">Saturne</a>
+                        <ul>
+                            <li>
+                                <a href="../pages1/124.html">Anneaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages2/256.html">Satellites</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/151.html">Uranus</a></li>
+                    <li>
+                        <a href="../pages6/91.html">Neptune</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/91.html">Orbitographie de <br />la planète</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/92.html">Satellites</a>
+                            </li>
+                            <li>
+                                <a href="../pages1/180.html">Anneaux</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/112.html">Pluton</a></li>
+
+                    <li><a href="../pages1/190.html">Astéroides</a></li>
+
+                    <li><a href="../pages2/25.html">Comètes</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+
+ <a href="../pages1/164.html"><span class="police_chap">Espace</span> </a>
+
+<ul>
+            <li><a href="../pages2/217.html">Historique</a></li>
+
+            <li>
+                <a href="../pages2/22.html">Site de lancement</a>
+                <ul>
+                    <li><a href="../pages1/18.html">Cap Kennedy</a></li>
+                    <li><a href="../pages6/60.html">Kourou</a></li>
+                    <li><a href="../pages1/14.html">Baikonour</a></li>
+                    <li><a href="../pages6/762.html">Autres centres spatiaux</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages2/217.html">Missions spatiales</a>
+                <ul>
+                    <li><a href="../pages5/5.html">Apollo</a></li>
+                    <li><a href="../pages6/69.html">Mariner</a></li>
+
+                    <li><a href="../pages1/159.html">Viking</a></li>
+                    <li><a href="../pages1/160.html">Voyager</a></li>
+
+                    <li><a href="../pages4/41.html">Galileo</a></li>
+                    <li><a href="../pages2/219.html">Soho</a></li>
+
+                    <li><a href="../pages6/672.html">Mars Express</a></li>
+                    <li><a href="../pages2/222.html">Cassini/Huygens</a></li>
+                    <li><a href="../pages6/669.html">Luna</a></li>
+
+                </ul>
+            </li>
+        </ul>
+
+    </li>
+
+
+    </li>
+
+    <li>
+        <a href="../pages1/114.html"><span class="police_chap">Observatoires</span> </a>
+
+        <ul>
+
+            <li>
+                <a href="../pages6/95.html">France</a>
+                <ul>
+                    <li><a href="../pages1/103.html">Observatoire de Paris</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages2/245.html">L'Institut de Mécanique <br />Céleste et des Calculs <br />en Ephémérides/IMCCE</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/86.html">Observatoire de Meudon</a>
+                            </li>
+                            <li>
+                                <a href="../pages2/281.html">Nançay</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/107.html">Pic du Midi</a></li>
+                    <li><a href="../pages6/96.html">Haute Provence</a></li>
+                    <li><a href="../pages2/267.html">Besançon</a></li>
+                    <li><a href="../pages2/268.html">Bordeaux</a></li>
+                    <li><a href="../pages2/269.html">Côte d'Azur</a></li>
+                    <li><a href="../pages2/270.html">Grenoble</a></li>
+                    <li><a href="../pages2/274.html">Lyon</a></li>
+                    <li><a href="../pages2/271.html">Marseille</a></li>
+                    <li><a href="../pages2/272.html">Strasbourg</a></li>
+                    <li><a href="../pages2/273.html">Toulouse</a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages6/833.html">Europe</a>
+                <ul>
+                    <li><a href="../pages2/247.html">Greenwich</a></li>
+                    <li><a href="../pages6/822.html">Bruxelles</a></li>
+                    <li><a href="../pages6/823.html">Turin</a></li>
+                    <li><a href="../pages6/824.html">Castel Gandolfo</a></li>
+                    <li><a href="../pages6/825.html">Catane</a></li>
+                    <li><a href="../pages6/826.html">San Fernando</a></li>
+                    <li><a href="../pages6/827.html">Bucarest</a></li>
+                    <li><a href="../pages6/828.html">Poznan</a></li>
+                    <li><a href="../pages6/823.html">Nikolaev</a></li>
+                    <li><a href="../pages2/248.html">Pulkovo</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages2/246.html">Autres</a>
+                <ul>
+                    <li><a href="../pages2/249.html">Washington D.C.</a></li>
+                    <li><a href="../pages6/99.html">Mont Palomar</a></li>
+                    <li><a href="../pages1/165.html">Zélenchuk</a></li>
+                    <li><a href="../pages6/830.html">Shanghai</a></li>
+                    <li><a href="../pages6/831.html">Itajuba</a></li>
+                    <li><a href="../pages6/78.html">CFHT Hawai</a></li>
+                    <li><a href="../pages3/305.html">Iles canaries: THEMIS</a></li>
+                    <li><a href="../pages6/61.html">ESO</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages5/580.html">Les plus grands <br /> télescopes</a>
+                <ul>
+                      <li><a href="../pages5/580.html">Les réflecteurs</a></li>
+                      <li><a href="../pages5/581.html">Les réfracteurs</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">Observatoires spatiaux</a>
+                <ul>
+                    <li><a href="../pages4/48.html">HST</a></li>
+                    <li><a href="../pages6/679.html">GAIA</a></li>
+                    <li><a href="../pages2/219.html">SOHO</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+<li><a href="../pages2/258.html"><span class="police_chap">Comprendre</span> </a>
+          <ul>
+            <li><a href="../pages2/216.html">Astronomie de position</a>
+                <ul>
+                    <li><a href="../pages2/279.html">Calendriers</a></li>
+                    <li><a href="../pages3/321.html">Phénomènes <br />astronomiques</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages3/322.html">Ephémérides</a>
+                <ul>
+                    <li><a href="../pages3/370.html">Lever et coucher</a></li>
+                    <li><a href="../pages5/584.html">Positions</a></li>
+                </ul>
+            </li>
+
+                    <li><a href="../pages2/243.html">Concepts fondamentaux</a></li>
+                    <li><a href="../pages5/523.html">Constantes fondamentales</a></li>
+                    <li><a href="../pages2/259.html">Approfondir</a></li>
+                    <li><a href="../pages2/291.html">Histoire de l'astronomie</a></li>
+
+                    <li><a href="../pages2/221.html">Glossaire</a></li>
+                    <li><a href="../pages4/475.html">Enseigner</a></li>
+                    <li><a href="../pages2/201.html">Index</a></li>
+                    <li><a href="../pages1/188.html">Guide</a></li>
+
+        </ul>
+</li>
+</ul>
+  
+  
+ </header>
+
+<br />
+
+  
+ <section>
+<!--	<div id="gauche-gauche">
+  <p>&nbsp;</p>
+	</div>-->
+	<div id="gauche">
+	 
+	     <a href="../pages4/439.html"><img id="P1" src="../images/new_image/page_precedente.png" alt="" /></a><a href="../pages3/321.html"><img id="P2" src="../images/new_image/page_suivante.png" alt="" /></a>
+	     <a href="../pages4/439.html"><img id="S1" src="../images/new_image/section_precedente.png" alt="" /></a><a href="../pages3/321.html"><img id="S2" src="../images/new_image/section_suivante.png" alt="" /></a>	
+	   	     
+	     <br />
+
+	     <a href="#ancre"><div id="plus">Haut de page</div></a> 
+ 	     <a href="../pages2/221.html"><div id="glossaire">Glossaire</div></a> 
+ 	     <a href="../pages2/201.html"><div id="index">Index</div></a> 
+ 	     <a href="../pages2/279.html"><div id="long1">Retour page Calendriers<img id="P1" src="../images/new_image/page_precedente.png" alt="" /></div></a>
+	     <a href="../pages3/321.html"><div id="long1">Phénomènes astronomiques <img id="P2" src="../images/new_image/page_suivante.png" alt="" /></div></a>
+	</div>
+
+
+
+	<div id="droite">
+<span class="fontsize">
+    <a class="LinkIn box1" title="Réduire la taille du texte du contenu" href="#"><img class="contour-print" alt="Réduire la taille du texte du contenu" onclick="changerTaille(-0.1); return false;" src="../images/new_image/dim-police.png"></a>
+    <a class="LinkIn box1" title="Agrandir la taille du texte du contenu" href="#"><img class="contour-print" alt="Agrandir la taille du texte du contenu" onclick="changerTaille(0.1); return false;" src="../images/new_image/aug-police.png"></a>
+    <a class="LinkIn box1" title="Imprimer cette page" href="#"><img class="contour-print" alt="Imprimer cette page" onclick="window.print(); return false;" src="../images/new_image/printer.png"></a>
+</span>
+
+ 
+  
+ <span class="fontsize-en">
+    <a class="LinkIn-en" title="English" href="../../en/pages5/503.html">English</a>
+</span>
+
+	    <p id="position"><A class=" box1" HREF="../pages2/258.html">Comprendre </A>><A class=" box1"  HREF="../pages5/503.html"> Calculs astronomiques </A>> Heure légale</p>
+
+
+
+<H1>L'HEURE LÉGALE EN FRANCE</H1>
+
+
+
+<FORM NAME="form" method="post" action="JavaScript:couran(this.form)">
+
+
+<p>L'HEURE LÉGALE ou l'heure en usage en France se détermine à 
+                partir du Temps universel coordonné (UTC). Selon les périodes,
+                de 1911 à  nos jours, les dates de changement d'heure sont
+                définies par décret&nbsp;; pour passer à 
+                l'heure d'été on avance les horloges de 1 h, pour
+                revenir à  l'heure d'hiver on retarde les horloges de 1
+                h.&nbsp; </p>
+
+                <p>À ce jour (février 2016), le décret instituant 
+                l'heure d'été n'a pas envisagé les années au-delà de 2021.</p>
+
+
+          <PRE><strong class="gras">&nbsp; ANNÉE (entre 1911 et 2021)&nbsp;:&nbsp;</strong>&nbsp;<INPUT TYPE="number" min="1945" max="2050" NAME="nyear" style="width: 5em; background-color: rgb(255,201,174)">&nbsp;&nbsp;&nbsp;<!-- <input TYPE="text" NAME="trace" SIZE="10">   -->
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Calcul" ONCLICK="couran(this.form)">&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Année précédente" onClick="preced(this.form)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Année suivante" onClick="suivan(this.form)"></PRE>
+
+<PRE>&nbsp;<TEXTAREA NAME="HEURLEG" ROWS="10" COLS="50" WRAP="virtual" STYLE="font-family: Courier;
+background-color: rgb(248,248,248); color: rgb(128,0,0);
+border-left: thin dotted rgb(136,68,0); border-right: thin dotted; border-top:
+thin dotted; border-bottom: thin dotted">&nbsp;</TEXTAREA>&nbsp;&nbsp;&nbsp;&nbsp;
+
+&nbsp;&nbsp;</PRE>
+</FORM method="post" action="JavaScript:couran(this.form)">
+
+<figcaption class="credit"> Crédit&nbsp;:&nbsp;P. Rocher/G. Satre/IMCCE/CNRS</figcaption><br />
+
+
+<p class="centrer_italique"><A class="box1" HREF="../pages5/502.html">Cliquer ici pour la définition de l'heure légale</A></p>
+	</div>
+
+<br /><br />
+
+</section>
+
+
+<footer>
+
+  <div>
+    <a href="../pages1/166.html"> Plan du site</a>&nbsp;&nbsp;&nbsp;<a href="../pages1/189.html"> Copyright</a>
+  </div>
+</footer>
+
+    </div>
+  </BODY>
+</HTML>
+

@@ -29,9 +29,12 @@ du menu <a href="https://promenade.imcce.fr/fr/pages2/216.html" target="_blank">
 </ul>
 <h2>Heure légale et fêtes (répertoire "pages5")</h2>
 <ul>
-	<li><a href="./503.html">Heure légale en France</a></li>
+	<li><a href="./503n.html">Heure légale en France</a></li>
 	<li><a href="./552.html">Fêtes chrétiennes dans le calendrier grégorien</a></li>
 	<li><a href="./553.html">Fêtes israélites dans le calendrier grégorien</a></li>
 	<li><a href="./554.html">Fêtes musulmanes dans le calendrier grégorien</a></li>
 </ul>
+
+## Bug à examiner par GitHub
+Link to [an existing file named "503.html"](./503.html) fires an Http error "503"
 
