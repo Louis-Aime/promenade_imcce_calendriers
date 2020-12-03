@@ -1,0 +1,14 @@
+Pages de de calcul de l'application "Promenade dans le système solaire" de l'IMCCE (Observatoire de Paris) corrigées par Miletus en mai et décembre 2019.
+
+Pour installer ces pages:
+- Lancez l'extraction de tous les fichiers dans un répertoire dédié de votre disque dur.
+
+Pour vérifier les pages corrigées:
+- Avec votre explorateur de fichiers, rendez-vous dans le répertoire fr/pages5.
+- Lancez le fichier 51.html dans votre navigateur Internet (sauf Internet Explorer).
+
+Pour installer les pages corrigées dans jeu de fichiers de l'application "Promenade":
+- Dans le répertoire fr/pages5/, déplacez ou effacez les fichiers "51.html" et "51 - fichier HTML à ne pas copier.txt". Ces fichiers ne doivent pas être copiés dans l'application complète.
+- Copiez le répertoire fr/pages5 dans le répertoire de même nom de l'application.
+- Copiez le répertoire fr/pages4 dans le répertoire de même nom de l'application.
+Les autres répertoires et fichiers ne doivent pas être copiés dans l'application.

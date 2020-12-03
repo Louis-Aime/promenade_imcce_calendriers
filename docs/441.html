@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<!-- Mil001 M2019-06-07
+- Aggrandir -> Agrandir
+- Accentuation des mots
+- Initialisation de l'année
+- Aligner les lignes des phases lunaires
+- Retour à la ligne liste des dates lunaires
+- Contrôle saisie mois et année
+-->
+<HTML>
+  <HEAD>
+    <META http-equiv="Content-type" content="text/html; charset=utf-8" />
+   <META NAME="Ouvrage" CONTENT="Migration pgms Minitel">
+   <META NAME="Auteurs" CONTENT="G.Satre">
+   <META NAME="Keywords" CONTENT="Lune,phases">
+   <META NAME="Copyright" CONTENT="I.M.C.C.E. (CNRS & MEN)">
+   <META NAME="Author" CONTENT="G. SATRE">
+   <META NAME="KeyWords" CONTENT="Lune,phases">
+   <TITLE>Comprendre - Calculs astronomiques - Phases de la Lune</TITLE>
+
+<!-- pour la comptabilité pour internet explorer 9-->
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+    <link rel="stylesheet" href="./style-dernier13.css"/>
+    <script src="./jquery-1.11.1.min.js"></script>
+    <script src="./jquery.mobile.custom.min.js"></script>
+    <script src="./script.js"></script>
+
+  <!--[if lt IE 7]>
+  <link rel="stylesheet" href="style_ie.css"/>
+  <![endif]-->
+
+<!-- Date de mise à jour : 27/03/2000 -->
+<!-- en plus: jour du mois et age de la Lune -->
+<!-- Date de la dernière mise-à-jour par N. Thouvenin : 24/05/2013 -->
+<SCRIPT LANGUAGE="JavaScript">
+<!-- hide this script tag's contents from old browsers
+w = self;
+mois_fix=new Array("nul","janvier  ","février  ","mars     ","avril    ","mai      ","juin     ","juillet  ","août     ","septembre","octobre  ","novembre ","décembre ");
+
+function oar(OK,CODE1,CODE2) { /*objets a ranger*/
+    this.OK
+    this.CODE1
+    this.CODE2
+    this.n_jrl
+    this.JR_courant
+    this.bool
+    this.chaine
+     }
+
+function date(JJD,AN,MOIS,JOUR,TYPEA,NBMOIS) {
+    this.JJD
+    this.AN
+    this.MOIS
+    this.JOUR
+    this.TYPEA
+    this.NBMOIS
+     }
+
+function trunc(x) {
+if (x>0.0) return(Math.floor(x));
+else return Math.ceil(x);
+}
+
+ function JJDATEJ()
+   {
+     Z1=date.JJD+0.5;
+     Z=trunc(Z1);
+     A=Z;
+     B=A+1524;
+     C=trunc((B-122.1)/365.25);
+     D=trunc(365.25*C);
+     E=trunc((B-D)/30.6001);
+     date.JOUR=trunc(B-D-trunc(30.6001*E));
+     if(E<13.5)date.MOIS = trunc(E-1);
+      else date.MOIS = trunc(E-13);
+     if(date.MOIS>=3) date.AN = trunc(C-4716);
+      else   date.AN = trunc(C-4715);
+                    }
+
+function JJDATE ()
+   {
+     Z1=date.JJD+0.5;
+     Z=trunc(Z1);
+     if (Z<2299161) A=Z;
+      else {ALPHA=trunc((Z-1867216.25)/36524.25);
+           A=Z+1+ALPHA-trunc(ALPHA/4);}
+     B=A+1524;
+     C=trunc((B-122.1)/365.25);
+     D=trunc(365.25*C);
+     E=trunc((B-D)/30.6001);
+     date.JOUR=trunc(B-D-trunc(30.6001*E));
+     if(E<13.5) date.MOIS = trunc(E-1);
+      else date.MOIS = trunc(E-13);
+     if(date.MOIS>=3) date.AN = trunc(C-4716);
+      else   date.AN = trunc(C-4715);
+    }
+
+function BISG()
+     /*         TYPEA = 0 annee commune.                         */
+     /*         TYPEA = 1 annee bissextile.                      */
+
+   { date.NBMOIS=12;
+     date.TYPEA=0;
+     if ((date.AN % 4)==0)               date.TYPEA=1;
+     if ((date.AN % 100)==0 && (date.AN % 400)!=0) date.TYPEA=0;}
+
+
+function BISJ()
+     /*         TYPEA = 0 annee commune.                         */
+     /*         TYPEA = 1 annee bissextile.                      */
+
+   { date.NBMOIS=12;
+     if ((date.AN % 4)==0) date.TYPEA=1; else date.TYPEA=0;  }
+
+function moonph(form)     /* Fonction calculant les phases de la Lune */
+       {
+        PI314=3.141592653589793;
+        tabm=new Array(0.041e0, 0.126e0, 0.203e0, 0.288e0,
+                       0.370e0, 0.455e0, 0.537e0, 0.622e0,
+                       0.707e0, 0.789e0, 0.874e0, 0.956e0);
+        xMOIS=date.MOIS;
+        oar.CODE1=date.AN; oar.CODE2=date.MOIS;
+        if(date.MOIS==1){an=date.AN-1; date.MOIS=12;}
+        else {an=date.AN; date.MOIS--;}
+        an+=tabm[date.MOIS-1];
+        k=(an-1900)*12.3685e0;
+        lik=trunc(k);rk=lik;
+        k=rk-0.25e0; if(k<0.e0)k=k-1;
+        rad=PI314/180e0;
+        nx=0;
+        with (Math) {
+        for(ii=0;ii<12;ii++)
+          {
+           k = k+0.25;  t=k/1236.85e0; t2=t*t; t3=t*t2;
+           j = 2415020.75933e0 + 29.5305888531e0*k
+              + 0.0001337e0*t2 - 0.000000150e0*t3
+              + 0.00033e0*sin(rad*(166.56e0 + 132.87*t - 0.009*t2));
+           m = rad*(359.2242e0 + 29.10535608e0*k
+              - 0.0000333e0*t2 - 0.00000347e0*t3);
+
+           m=m%(2*PI314);
+           mp = rad*(306.0253e0 + 385.81691806e0*k
+              + 0.0107306e0*t2 + 0.00001236e0*t3);
+           mp=mp%(2*PI314);
+           f = rad*(21.2964e0 + 390.67050646e0*k
+              - 0.0016528e0*t2 - 0.00000239e0*t3);
+           f=f%(2*PI314);
+           oar.OK=0; i=ii%4;
+           if(i==0 || i==2)
+             {
+               j = j + (0.1734e0 - 0.000393e0*t)*sin(m)
+                     + 0.0021e0*sin(2*m) - 0.4068e0*sin(mp)
+                     + 0.0161e0*sin(2*mp) - 0.0004e0*sin(3*mp)
+                     + 0.0104e0*sin(2*f) - 0.0051e0*sin(m+mp)
+                     - 0.0074e0*sin(m-mp) + 0.0004e0*sin(2*f+m)
+                     - 0.0004e0*sin(2*f-m) - 0.0006e0*sin(2*f+mp)
+                     + 0.001e0*sin(2*f-mp) + 0.0005e0*sin(m+2*mp);
+               date.JJD = j;
+               testmoi(i,xMOIS);                     /*NL,PL */
+               if(oar.OK==1) affmoph(form,i);
+             }
+           else
+             {
+               j = j + (0.1721e0 - 0.0004e0*t)*sin(m)
+                     + 0.0021e0*sin(2*m) - 0.6280e0*sin(mp)
+                     + 0.0089e0*sin(2*mp) - 0.0004e0*sin(3*mp)
+                     + 0.0079e0*sin(2*f) - 0.0119e0*sin(m+mp)
+                     - 0.0047e0*sin(m-mp) + 0.0003e0*sin(2*f+m)
+                     - 0.0004e0*sin(2*f-m) - 0.0006e0*sin(2*f+mp)
+                     + 0.0021e0*sin(2*f-mp) + 0.0003e0*sin(m+2*mp)
+                     + 0.0004e0*sin(m-2*mp) - 0.0003e0*sin(2*m+mp);
+                if(i==1)
+                   {                            /* Premier quartier */
+                    date.JJD = j + 0.0028e0 - 0.0004*cos(m)
+                           + 0.0003e0*cos(mp);
+                    testmoi(i,xMOIS);
+                    if(oar.OK==1) affmoph(form,i);
+                   }
+                else
+               {                            /* Dernier quartier */
+                     date.JJD = j - 0.0028e0 + 0.0004*cos(m)
+                                  - 0.0003e0*cos(mp);
+                     testmoi(i,xMOIS);
+                    if(oar.OK==1) affmoph(form,i);
+                   }
+              }
+                                 }   /*fermeture biblio Math*/
+              if (oar.OK==1) nx++;
+              if (nx>=4 && oar.OK==0) alert('break');               }
+            date.AN=oar.CODE1; date.MOIS=oar.CODE2;
+        if (date.MOIS==2) date.NBJRS=((date.TYPEA==0)?28:29);
+         else {if(date.MOIS<8) date.NBJRS=(((date.MOIS&1)!=0)?31:30);
+               else date.NBJRS=(((date.MOIS&1)!=0)?30:31);}
+/* éditer les derniers jours du mois*/
+        while (oar.JR_courant <= date.NBJRS)
+         affich_age(form);
+       }
+
+function testmoi(i,pMOIS)    /* le test sur le mois doit être
+                                  fait sur JJD final et non sur sa
+                                  valeur brute. */
+       {
+        D=oar.CODE1/100.0;               /* TE-TU (P.B.) en secondes */
+        TETUS = 32.23*(D-18.30)*(D-18.30)-15;
+        TETUJ = TETUS/86400e0;
+        date.JJD+=0.0003472222e0;  /* ajout de 30s pour arrondi sur la
+                       minute avant troncature lors de l'affichage */
+        date.JJD+=(-TETUJ);
+        if(date.JJD<2299160.5e0){JJDATEJ();BISJ();} else{JJDATE();BISG();}
+        oar.OK=0;
+        if(date.MOIS==pMOIS) oar.OK=1;
+        /*NL*/
+           if (i==0) if (pMOIS>date.MOIS) init_jrl(pMOIS);
+                    else if (date.MOIS==12 && pMOIS==1) init_jrl(pMOIS);
+       }
+
+function init_jrl(xmois)  /* calcul no jour lune du 1er du mois*/
+       {
+             if (oar.bool==0) {
+              if (date.MOIS==2) date.NBJRS=((date.TYPEA==0)?28:29);
+             else {if(date.MOIS<8) date.NBJRS=(((date.MOIS&1)!=0)?31:30);
+                    else date.NBJRS=(((date.MOIS&1)!=0)?30:31);}
+             oar.JR_courant=1;
+             oar.n_jrl=date.NBJRS-date.JOUR+2;  }
+       }
+
+function affmoph(form,i)            /* affichage phase Lune */
+       {
+        mois=new Array("nul","janvier","février","mars ","avril"," mai ","juin ",
+                       "juillet","août ","septembre","octobre","novembre","décembre");
+        nompha=new Array("NOUVELLE LUNE    ","PREMIER  QUARTIER",
+                    "PLEINE   LUNE    ","DERNIER  QUARTIER");
+        sigpha=new Array("NL","PQ","PL","DQ");
+        tabjm=new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+                                      /* date et heure */
+        if(date.JJD<2299160.5E0) JJDATEJ(); else  JJDATE();
+        FRACJ=(date.JJD+0.5E0)%1.0;
+        jour=date.JOUR;
+        HH=FRACJ*24e0; hh=Math.floor(HH);
+        FRACJ-=hh/24.e0; MM=FRACJ*1440.e0; mm=Math.floor(MM);
+        if(hh==24)                    /* cas op heure=24 ....... */
+           {jfin=tabjm[date.MOIS-1];
+            if(date.JJD<2299160.5E0) BISJ(); else  BISG();
+            if(date.MOIS==2 && date.TYPEA==1)jfin=29;
+            if(date.JOUR<jfin) { hh=0; jour=date.JOUR+1;}
+           }
+       if (hh<10) hh="0"+hh;
+       if (mm<10) mm="0"+mm;
+
+ while (oar.JR_courant < date.JOUR)
+  affich_age(form);
+/*marquer phase*/
+//Mil001: "nombre" est toujours numérique, mais quand on l'insère dans une chaîne on ajoute un espace si nécessaire
+  nombre=oar.JR_courant++;
+  document.form.CAL_JR.value=document.form.CAL_JR.value + ((nombre <=9)?" ":"")+ nombre;
+  if (date.AN>=-9 && date.AN<=99) oar.chaine="  " + date.AN;
+  else oar.chaine=date.AN;
+  //Mil001 termine ligne avec alinéa
+  document.form.CAL_JR.value=document.form.CAL_JR.value + " "+ mois_fix[date.MOIS] + " " + oar.chaine +"    " + sigpha[i] + "\n";
+if (i==0) {oar.n_jrl=2; oar.bool=1;} else oar.n_jrl++;
+		//Mil001 : aligner les dates d'un même mois en ajoutant un espace si le quantième est <=9
+       form.PHASES.value=form.PHASES.value + nompha[i] + " " + ((jour <=9) ? " " : "") + jour + " " + mois[date.MOIS] + " " +
+        date.AN + " à " + hh + "h" + mm + "m UT\n";
+       }
+
+function affich_age(form)
+  {
+  //mois_fix=new Array("nul","janvier  ","février  ","mars     ","avril    ","mai      ","juin     ","juillet  ","août     ","septembre","octobre  ","novembre ","décembre ");
+//Mil001: "nombre" est toujours numérique, mais quand on l'insère dans une chaîne on ajoute un espace si nécessaire
+  nombre=oar.JR_courant++
+  document.form.CAL_JR.value=document.form.CAL_JR.value + ((nombre<=9)?" ":"")+ nombre;
+  nombre=oar.n_jrl++; nombre = ((nombre<=9)?" ":"")+ nombre;
+  if (date.AN>=-9 && date.AN<=99) oar.chaine="  " + date.AN;
+  else oar.chaine=date.AN;
+  //Mil001 : aligner les dates d'un même mois en ajoutant un espace si le quantième est <=9
+  document.form.CAL_JR.value=document.form.CAL_JR.value + " "+ mois_fix[date.MOIS] + " " + oar.chaine +"    " + nombre + "\n";
+  }
+
+function suivan(form) {
+date.AN=(form.nyear.value=="") ? "0" :eval(form.nyear.value);
+//Mil001 contrôle valeur entière pour l'année
+if (!Number.isInteger(date.AN)) { alert('année incorrecte');return;}
+date.MOIS=(form.nmonth.value=="") ? "0" :eval(form.nmonth.value);
+//Mil001 contrôle valeur entière et mois légitime
+if (!Number.isInteger(date.MOIS)) { alert('mois incorrect');return;}
+if (date.MOIS < 1 || date.MOIS >12) { alert('mois incorrect');return;}
+if (++date.MOIS==13) { date.MOIS=1; date.AN++;
+    if (date.AN<-4000 || date.AN>2500) {alert('hors limites');
+                                       date.AN--; date.MOIS=12;
+                                        return;}}
+form.nyear.value=date.AN; form.nmonth.value=date.MOIS;
+form.PHASES.value="";
+form.CAL_JR.value="";
+oar.bool=0;
+moonph(form);
+}
+
+function preced(form) {
+date.AN=(form.nyear.value=="") ? "0" :eval(form.nyear.value);
+//Mil001 contrôle valeur entière pour l'année
+if (!Number.isInteger(date.AN)) { alert('année incorrecte');return;}
+date.MOIS=(form.nmonth.value=="") ? "0" :eval(form.nmonth.value);
+//Mil001 contrôle valeur entière et mois légitime
+if (!Number.isInteger(date.MOIS)) { alert('mois incorrect');return;}
+if (date.MOIS < 1 || date.MOIS >12) { alert('mois incorrect');return;}
+if (--date.MOIS==0) {date.MOIS=12; date.AN--;
+    if (date.AN<-4000 || date.AN>2500) {alert('hors limites');
+                                       date.AN++; date.MOIS=1;}}
+form.nyear.value=date.AN; form.nmonth.value=date.MOIS;
+form.PHASES.value="";
+form.CAL_JR.value="";
+oar.bool=0;
+moonph(form);}
+
+function couran(form) {
+date.AN=(form.nyear.value=="") ? "0" :eval(form.nyear.value);
+//Mil001 contrôle valeur entière pour l'année
+if (!Number.isInteger(date.AN)) { alert('année incorrecte');return;}
+date.MOIS=(form.nmonth.value=="") ? "0" :eval(form.nmonth.value);
+//Mil001 contrôle valeur entière et mois légitime
+if (!Number.isInteger(date.MOIS)) { alert('mois incorrect');return;}
+if (date.MOIS < 1 || date.MOIS >12) { alert('mois incorrect');return;}
+form.PHASES.value="";
+form.CAL_JR.value="";
+oar.bool=0;
+if (date.AN<-4000 || date.AN>2500) {alert('hors limites');}
+if (date.MOIS<1 || date.MOIS>12) {alert('hors limites');}
+moonph(form);
+}
+
+function dateinit(form) {
+Todays=new Date();
+/*selon les navigateurs la fonction getyear de Javascript
+  donne 100 ou 2000 (avant 2000 donnait toujours le millésime*/
+
+if (Todays.getFullYear() == 100)
+ document.form.nyear.value=1900 + Todays.getFullYear();
+else
+ document.form.nyear.value=Todays.getFullYear();
+
+document.form.nmonth.value=Todays.getMonth() +1;
+}
+
+// done hiding from old browsers -->
+   </SCRIPT>
+</HEAD>
+
+<BODY onLoad="dateinit(this.form)">
+
+
+    <div id="bloc_page">
+
+
+
+      <header id="ancre">
+	<a href="../pages5/51.html"><img class="image-bandeau" src="./bandeau.png" alt="" /></a>
+
+ 
+	 
+ 
+<ul id="menu">
+    <li>
+        <a href="../pages3/37.html"><span class="police_chap">Encyclopédie</span> </a>
+
+        <ul>
+            <li><a href="../pages1/19.html">Caractéristiques <br /> des planètes</a></li>
+
+            <li>
+                <a href="../pages1/139.html">Choisir un corps céleste<br />dans le système solaire</a>
+                <ul>
+                    <li><a href="../pages1/131.html">Soleil</a></li>
+                    <li><a href="../pages6/82.html">Mercure</a></li>
+
+                    <li><a href="../pages1/152.html">Vénus</a></li>
+                    <li><a href="../pages1/176.html">Terre</a></li>
+
+                    <li><a href="../pages1/177.html">Lune</a></li>
+                    <li><a href="../pages6/70.html">Mars</a></li>
+
+                    <li><a href="../pages5/54.html">Jupiter</a></li>
+                    <li><a href="../pages1/119.html">Saturne</a></li>
+
+                    <li><a href="../pages1/148.html">Uranus</a></li>
+                    <li><a href="../pages6/89.html">Neptune</a></li>
+
+                    <li><a href="../pages1/110.html">Pluton</a></li>
+                    <li><a href="../pages6/9.html">Astéroides</a></li>
+
+                    <li><a href="../pages2/23.html">Comètes</a></li>
+
+                </ul>
+            </li>
+            <li><a href="../pages3/376.html">Le système solaire <br /> en chiffres</a></li>
+
+            <li><a href="../pages2/240.html">Origine des noms</a></li>
+
+            <li><a href="../pages2/257.html">Classification des corps</a></li>
+        </ul>
+
+    </li>
+    <li>
+        <a href="../pages3/32.html"><span class="police_chap">Découvertes</span> </a>
+        <ul>
+            <li><a href="../pages3/312.html">Astronomes célèbres</a></li>
+
+            <li><a href="../pages1/168.html">Dates importantes</a></li>
+
+            <li>
+                <a href="../pages1/168.html">Découvertes dans <br />le système solaire</a>
+                <ul>
+                    <li>
+                        <a href="../pages3/371.html">Soleil</a>
+                        <ul>
+                            <li>
+                                <a href="../pages3/374.html">Taches solaires</a>
+                            </li>
+
+                            <li>
+                                <a href="../pages1/133.html">Eclipses solaires</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages6/83.html">Mercure</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/83.html">Avance du périhélie</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../pages1/155.html">Vénus</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages1/155.html">Phases</a>
+                            </li>
+                            <li>
+                                <a href="../pages1/155.html">Rotations</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages1/183.html">Terre</a>
+                        <ul>
+                            <li>
+                                <a href="../pages1/183.html">Forme</a>
+                            </li>
+
+                            <li>
+                                <a href="../pages1/183.html">Mouvement</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages6/64.html">Lune</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/64.html">Cratères</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/64.html">Surface</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../pages3/372.html">Mars</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages3/372.html">Surfaces</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/75.html">Canaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/76.html">Période de rotation</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/77.html">Satellites</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages5/56.html">Jupiter</a>
+                        <ul>
+                            <li>
+                                <a href="../pages5/56.html">Satellites</a>
+                            </li>
+                            <li>
+                                <a href="../pages5/57.html">Anneaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages5/58.html">Tache rouge</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages1/124.html">Saturne</a>
+                        <ul>
+                            <li>
+                                <a href="../pages1/124.html">Anneaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages2/256.html">Satellites</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/151.html">Uranus</a></li>
+                    <li>
+                        <a href="../pages6/91.html">Neptune</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/91.html">Orbitographie de <br />la planète</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/92.html">Satellites</a>
+                            </li>
+                            <li>
+                                <a href="../pages1/180.html">Anneaux</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/112.html">Pluton</a></li>
+
+                    <li><a href="../pages1/190.html">Astéroides</a></li>
+
+                    <li><a href="../pages2/25.html">Comètes</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+
+ <a href="../pages1/164.html"><span class="police_chap">Espace</span> </a>
+
+<ul>
+            <li><a href="../pages2/217.html">Historique</a></li>
+
+            <li>
+                <a href="../pages2/22.html">Site de lancement</a>
+                <ul>
+                    <li><a href="../pages1/18.html">Cap Kennedy</a></li>
+                    <li><a href="../pages6/60.html">Kourou</a></li>
+                    <li><a href="../pages1/14.html">Baikonour</a></li>
+                    <li><a href="../pages6/762.html">Autres centres spatiaux</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages2/217.html">Missions spatiales</a>
+                <ul>
+                    <li><a href="../pages5/5.html">Apollo</a></li>
+                    <li><a href="../pages6/69.html">Mariner</a></li>
+
+                    <li><a href="../pages1/159.html">Viking</a></li>
+                    <li><a href="../pages1/160.html">Voyager</a></li>
+
+                    <li><a href="../pages4/41.html">Galileo</a></li>
+                    <li><a href="../pages2/219.html">Soho</a></li>
+
+                    <li><a href="../pages6/672.html">Mars Express</a></li>
+                    <li><a href="../pages2/222.html">Cassini/Huygens</a></li>
+                    <li><a href="../pages6/669.html">Luna</a></li>
+
+                </ul>
+            </li>
+        </ul>
+
+    </li>
+
+
+    </li>
+
+    <li>
+        <a href="../pages1/114.html"><span class="police_chap">Observatoires</span> </a>
+
+        <ul>
+
+            <li>
+                <a href="../pages6/95.html">France</a>
+                <ul>
+                    <li><a href="../pages1/103.html">Observatoire de Paris</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages2/245.html">L'Institut de Mécanique <br />Céleste et des Calculs <br />en Ephémérides/IMCCE</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/86.html">Observatoire de Meudon</a>
+                            </li>
+                            <li>
+                                <a href="../pages2/281.html">Nançay</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/107.html">Pic du Midi</a></li>
+                    <li><a href="../pages6/96.html">Haute Provence</a></li>
+                    <li><a href="../pages2/267.html">Besançon</a></li>
+                    <li><a href="../pages2/268.html">Bordeaux</a></li>
+                    <li><a href="../pages2/269.html">Côte d'Azur</a></li>
+                    <li><a href="../pages2/270.html">Grenoble</a></li>
+                    <li><a href="../pages2/274.html">Lyon</a></li>
+                    <li><a href="../pages2/271.html">Marseille</a></li>
+                    <li><a href="../pages2/272.html">Strasbourg</a></li>
+                    <li><a href="../pages2/273.html">Toulouse</a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages6/833.html">Europe</a>
+                <ul>
+                    <li><a href="../pages2/247.html">Greenwich</a></li>
+                    <li><a href="../pages6/822.html">Bruxelles</a></li>
+                    <li><a href="../pages6/823.html">Turin</a></li>
+                    <li><a href="../pages6/824.html">Castel Gandolfo</a></li>
+                    <li><a href="../pages6/825.html">Catane</a></li>
+                    <li><a href="../pages6/826.html">San Fernando</a></li>
+                    <li><a href="../pages6/827.html">Bucarest</a></li>
+                    <li><a href="../pages6/828.html">Poznan</a></li>
+                    <li><a href="../pages6/823.html">Nikolaev</a></li>
+                    <li><a href="../pages2/248.html">Pulkovo</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages2/246.html">Autres</a>
+                <ul>
+                    <li><a href="../pages2/249.html">Washington D.C.</a></li>
+                    <li><a href="../pages6/99.html">Mont Palomar</a></li>
+                    <li><a href="../pages1/165.html">Zélenchuk</a></li>
+                    <li><a href="../pages6/830.html">Shanghai</a></li>
+                    <li><a href="../pages6/831.html">Itajuba</a></li>
+                    <li><a href="../pages6/78.html">CFHT Hawai</a></li>
+                    <li><a href="../pages3/305.html">Iles canaries: THEMIS</a></li>
+                    <li><a href="../pages6/61.html">ESO</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages5/580.html">Les plus grands <br /> télescopes</a>
+                <ul>
+                      <li><a href="../pages5/580.html">Les réflecteurs</a></li>
+                      <li><a href="../pages5/581.html">Les réfracteurs</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">Observatoires spatiaux</a>
+                <ul>
+                    <li><a href="../pages4/48.html">HST</a></li>
+                    <li><a href="../pages6/679.html">GAIA</a></li>
+                    <li><a href="../pages2/219.html">SOHO</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+<li><a href="../pages2/258.html"><span class="police_chap">Comprendre</span> </a>
+          <ul>
+            <li><a href="../pages2/216.html">Astronomie de position</a>
+                <ul>
+                    <li><a href="../pages2/279.html">Calendriers</a></li>
+                    <li><a href="../pages3/321.html">Phénomènes <br />astronomiques</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages3/322.html">Ephémérides</a>
+                <ul>
+                    <li><a href="../pages3/370.html">Lever et coucher</a></li>
+                    <li><a href="../pages5/584.html">Positions</a></li>
+                </ul>
+            </li>
+
+                    <li><a href="../pages2/243.html">Concepts fondamentaux</a></li>
+                    <li><a href="../pages5/523.html">Constantes fondamentales</a></li>
+                    <li><a href="../pages2/259.html">Approfondir</a></li>
+                    <li><a href="../pages2/291.html">Histoire de l'astronomie</a></li>
+
+                    <li><a href="../pages2/221.html">Glossaire</a></li>
+                    <li><a href="../pages4/475.html">Enseigner</a></li>
+                    <li><a href="../pages2/201.html">Index</a></li>
+                    <li><a href="../pages1/188.html">Guide</a></li>
+
+        </ul>
+</li>
+</ul>
+  
+  
+ </header>
+
+    <br />
+
+  
+ <section>
+<!--	<div id="gauche-gauche">
+  <p>&nbsp;</p>
+	</div>-->
+	<div id="gauche">
+	 
+	     <a href="../pages5/585.html"><img id="P1" src="../images/new_image/page_precedente.png" alt="" /></a><a href="../pages3/334.html"><img id="P2" src="../images/new_image/page_suivante.png" alt="" /></a>
+	     <a href="../pages5/503.html"><img id="S1" src="../images/new_image/section_precedente.png" alt="" /></a><a href="../pages3/322.html"><img id="S2" src="../images/new_image/section_suivante.png" alt="" /></a>	
+	   	     
+	     <br />
+
+	     <a href="#ancre"><div id="long1">Haut de page</div></a> 
+ 	     <a href="../pages2/221.html"><div id="glossaire">Glossaire</div></a> 
+ 	      
+ 	     <a href="../pages4/443.html"><div id="long1">Glossaire</div></a> 
+ 	     <a href="../pages2/201.html"><div id="long1">Index</div></a> 
+	     <a href="../pages2/279.html"><div id="long1">Calendriers</div></a>	     
+             <a href="../pages2/243.html"><div id="long1">Concepts fondamentaux</div></a>
+	     <a href="../pages2/259.html"><div id="long1">Approfondir</div></a>
+	     <a href="../pages2/279.html"><div id="long1">Calendriers</div></a>
+	     <a href="../pages3/334.html"><div id="long1">Eclipses de Lune<img id="P2" src="../images/new_image/page_suivante.png" alt="" /></div></a>
+	</div>
+
+
+
+	<div id="droite">
+<span class="fontsize">
+    <a class="LinkIn box1" title="Réduire la taille du texte du contenu" href="#"><img class="contour-print" alt="Réduire la taille du texte du contenu" onclick="changerTaille(-0.1); return false;" src="../images/new_image/dim-police.png"></a>
+    <a class="LinkIn box1" title="Agrandir la taille du texte du contenu" href="#"><img class="contour-print" alt="Agrandir la taille du texte du contenu" onclick="changerTaille(0.1); return false;" src="../images/new_image/aug-police.png"></a>
+    <a class="LinkIn box1" title="Imprimer cette page" href="#"><img class="contour-print" alt="Imprimer cette page" onclick="window.print(); return false;" src="../images/new_image/printer.png"></a>
+</span>
+
+ 
+  
+ <span class="fontsize-en">
+    <a class="LinkIn-en" title="English" href="../../en/pages4/441.html">English</a>
+</span>
+
+	    <p id="position"><A class=" box1" HREF="../pages2/258.html">Comprendre </A>><A class=" box1"  HREF="../pages2/216.html"> Calculs astronomiques</A> > <A class=" box1"  HREF="../pages3/321.html">Phénomènes </A>VI</p>
+
+
+
+
+<H1>Phases de la Lune</H1>
+
+<br /><br />
+
+<FORM NAME="form">
+<PRE><strong class="gras">&nbsp; ANNÉE (</strong><I>entre -4000 et +2500</I><strong class="gras">)&nbsp;:&nbsp;</strong>&nbsp;<INPUT TYPE="number" min="-4000" max="2500" NAME="nyear" style="width: 5em; background-color: rgb(255,201,174)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="gras"> MOIS&nbsp;:&nbsp;</strong>&nbsp;<INPUT TYPE="number" min="1" max="12" NAME="nmonth" style="width: 3em; background-color: rgb(255,193,164)">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Calcul" ONCLICK="couran(this.form)">&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Mois précédent" onClick="preced(this.form)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button" VALUE="Mois suivant" onClick="suivan(this.form)"></PRE>
+
+<PRE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<TEXTAREA NAME="PHASES" ROWS="5" COLS="48" WRAP="virtual" STYLE="font-family: Courier; background-color: rgb(248,248,248); color: rgb(128,0,0); border-left: thin dotted rgb(136,68,0); border-right: thin dotted; border-top: thin dotted; border-bottom: thin dotted"></TEXTAREA></PRE>
+
+<PRE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jour de
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jour du mois&nbsp;&nbsp;&nbsp; la&nbsp; Lune&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<TEXTAREA NAME="CAL_JR" ROWS="10" COLS="26" WRAP="virtual"></TEXTAREA></PRE>
+</FORM>
+
+<p>Les dates des phases de la Lune sont données avec
+une précision de quelques minutes.&nbsp;</p>
+
+
+
+<p class="centrer_italique"><A class="box1" HREF="../pages5/501.html">cliquer ici pour des explications sur les phases de la Lune</A></p>
+
+	</div>
+
+<br /><br />
+
+</section>
+
+
+<footer>
+
+  <div>
+    <a href="../pages1/166.html"> Plan du site</a>&nbsp;&nbsp;&nbsp;<a href="../pages1/189.html"> Copyright</a>
+  </div>
+</footer>
+
+    </div>
+  </BODY>
+</HTML>

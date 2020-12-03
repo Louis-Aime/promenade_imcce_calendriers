@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<!-- Mil001: M2019-06-07
+- Aggrandir -> Agrandir
+- Texte apparent accentué partout
+- Tous les &ecirc; -> ê
+- Lancement de l'initialisation d'année
+- Validation du champ unique du formulaire lance le calcul
+- Balise INPUT d'année contrôle la validité
+- Boutons Précédent et Suivant ne permettent pas de sortir du domaine de validité
+- Bouton Suivant: limite basse fixée à 1945 au lieu de 1975
+- Compléter la date grégorienne avec l'année (commme pour le calendrier israélite)
+- Correction des accents de certains commentaires
+- Vider le tableau FESTFIX pour une présentation homogène
+-->
+<HTML>
+  <HEAD>
+    <META http-equiv="Content-type" content="text/html; charset=utf-8" />
+   <META NAME="Ouvrage" CONTENT="Migration pgms Minitel">
+   <META NAME="Auteurs" CONTENT="G.Satre">
+   <META NAME="Keywords" CONTENT="Fetes calendrier musulman grégorien">
+   <META NAME="Copyright" CONTENT="I.M.C.C.E. (CNRS & MEN)">
+   <META NAME="Author" CONTENT="Sylvain ARLOT">
+   <META NAME="KeyWords" CONTENT="Fetes calendrier musulman grégorien">
+   <TITLE>Comprendre - Calculs astronomiques - Fêtes religieuses</TITLE>
+
+<!-- pour la comptabilité pour internet explorer 9-->
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+    <link rel="stylesheet" href="../pages1/style-dernier13.css"/>
+    <script src="../pages1/jquery-1.11.1.min.js"></script>
+    <script src="../pages1/jquery.mobile.custom.min.js"></script>
+    <script src="../pages1/script.js"></script>
+
+  <!--[if lt IE 7]>
+  <link rel="stylesheet" href="style_ie.css"/>
+  <![endif]-->
+
+
+<!-- Date de mise à jour : 19/10/2000 -->
+<!-- Date de la dernière mise-à-jour par N. Thouvenin : 22/05/2013 -->
+<SCRIPT LANGUAGE="JavaScript">
+
+<!-- hide this script tag's contents from old browsers
+
+w = self;
+
+
+
+function oar() { /*objets a ranger*/
+
+    this.OK
+
+    this.chaine
+
+    this.JSEM
+
+    this.CODE1
+
+    this.CODE2
+
+    this.ANC
+
+    this.CYCLE
+
+     }
+
+
+
+function date() {
+
+    this.JJD
+
+    this.AN
+
+    this.MOIS
+
+    this.JOUR
+
+    this.TYPEA
+
+    this.NBMOIS
+
+     }
+
+
+
+function trunc(x) {
+
+if (x>0.0) return(Math.floor(x));
+
+else return Math.ceil(x);
+
+}
+
+
+
+function round(x) {
+
+if (x>0.0) return(Math.floor(x+0.5));
+
+else return Math.ceil(x-0.5);
+
+}
+
+
+
+ function JJDATEJ()
+
+   {
+
+     Z1=date.JJD+0.5;
+
+     Z=trunc(Z1);
+
+     A=Z;
+
+     B=A+1524;
+
+     C=trunc((B-122.1)/365.25);
+
+     D=trunc(365.25*C);
+
+     E=trunc((B-D)/30.6001);
+
+     date.JOUR=trunc(B-D-trunc(30.6001*E));
+
+     if(E<13.5)date.MOIS = trunc(E-1);
+
+      else date.MOIS = trunc(E-13);
+
+     if(date.MOIS>=3) date.AN = trunc(C-4716);
+
+      else   date.AN = trunc(C-4715);
+
+                    }
+
+
+
+function JJDATE ()
+
+   {
+
+     Z1=date.JJD+0.5;
+
+     Z=trunc(Z1);
+
+     if (Z<2299161) A=Z;
+
+      else {ALPHA=trunc((Z-1867216.25)/36524.25);
+
+           A=Z+1+ALPHA-trunc(ALPHA/4);}
+
+     B=A+1524;
+
+     C=trunc((B-122.1)/365.25);
+
+     D=trunc(365.25*C);
+
+     E=trunc((B-D)/30.6001);
+
+     date.JOUR=trunc(B-D-trunc(30.6001*E));
+
+     if(E<13.5) date.MOIS = trunc(E-1);
+
+      else date.MOIS = trunc(E-13);
+
+     if(date.MOIS>=3) date.AN = trunc(C-4716);
+
+      else   date.AN = trunc(C-4715);
+
+    }
+
+
+
+function BISG()
+
+     /*         TYPEA = 0 annee commune.                         */
+
+     /*         TYPEA = 1 annee bissextile.                      */
+
+
+
+   { date.NBMOIS=12;
+
+     date.TYPEA=0;
+
+     if ((date.AN % 4)==0)               date.TYPEA=1;
+
+     if ((date.AN % 100)==0 && (date.AN % 400)!=0) date.TYPEA=0;}
+
+
+
+
+
+function BISJ()
+
+     /*         TYPEA = 0 annee commune.                         */
+
+     /*         TYPEA = 1 annee bissextile.                      */
+
+
+
+   { date.NBMOIS=12;
+
+     if ((date.AN % 4)==0) date.TYPEA=1; else date.TYPEA=0;  }
+
+
+
+function MUSULJ()
+
+   {  BMOIS=new Array;
+
+      BORNE=new Array (0,354,709,1063,1417,1772,2126,
+
+      2481,2835,3189,3544,3898,4252,4607,4961,5315,5670,6024,6379,
+
+      6733,7087,7442,7796,8150,8505,8859,9214,9568,9922,10277,10631);
+
+      CMOIS=new Array (0,30,59,89,118,148,177,
+
+                207,236,266,295,325,354);
+
+
+
+      for (I=0; I<13; I++) { BMOIS[I] = CMOIS[I];}
+
+      DT=(date.AN-1)/30;
+
+      oar.CYCLE=trunc(DT)+1;
+
+      oar.ANC=date.AN-trunc(DT)*30;
+
+      DT=trunc(DT);
+
+      JAN=trunc(DT);
+
+      date.JJD=trunc(DT*10631);
+
+      JAN=date.AN-JAN*30;
+
+      if (JAN==2 || JAN==5 || JAN==7 || JAN==10 ||
+
+          JAN==13 || JAN==16 || JAN==18 || JAN==21 ||
+
+          JAN==24 || JAN==26 || JAN==29)
+
+          {date.TYPEA=1; BMOIS[12]=355;}
+
+      else date.TYPEA=0;
+
+      date.JJD = date.JJD+BORNE[JAN-1]+BMOIS[date.MOIS-1]+date.JOUR+1948438.5;
+
+      }
+
+
+
+function JULIEN()
+
+   {  IJOUR=date.JOUR;
+
+      Y=date.AN;
+
+      M=date.MOIS;
+
+      A = Y + M/100 + IJOUR/10000;
+
+      if(date.MOIS<=2){Y=Y-1;M=M+12;};
+
+      if(Y<0)     date.JJD = Math.ceil(365.25*Y-0.75);
+
+      else date.JJD = Math.floor(365.25*Y);
+
+      date.JJD = date.JJD+trunc(30.6001*(M+1))+IJOUR+1720994.5;
+
+      if(A>1582.1014) date.JJD=date.JJD+2-trunc(Y/100)+trunc(trunc(Y/100)/4);
+
+    }
+
+
+
+function JMUSUL()
+
+   { BORNE = new Array (0,354,709,1063,1417,1772,2126,
+
+     2481,2835,3189,3544,3898,4252,4607,4961,5315,5670,6024,6379,
+
+     6733,7087,7442,7796,8150,8505,8859,9214,9568,9922,10277,10631);
+
+     CMOIS = new Array(0,30,59,89,118,148,177,
+
+                207,236,266,295,325,354);
+
+     BMOIS=new Array;
+
+
+
+      for (I=0; I<13; I++) { BMOIS[I] = CMOIS[I];}
+
+      DT=date.JJD-1948438.5;
+
+      NDT=trunc(DT/10631);
+
+      date.AN=NDT*30;
+
+      oar.CYCLE=NDT+1;
+
+      DT=DT-trunc(DT/10631)*10631;
+
+      if(DT==0) {JAN=0;oar.ANC=30;oar.CYCLE=NDT;}
+
+      else { for(I=0; I<30; I++)
+
+           {if ((BORNE[I]<DT) && (DT<=BORNE[I+1]))
+
+               {JAN=I+1;oar.ANC=JAN;DT=DT-BORNE[I];}}}
+
+      date.AN=date.AN+JAN;
+
+     if (oar.ANC==2 || oar.ANC==5 || oar.ANC==7 || oar.ANC==10 ||
+
+       oar.ANC==13 || oar.ANC==16 || oar.ANC==18 || oar.ANC==21 ||
+
+       oar.ANC==24 || oar.ANC==26 || oar.ANC==29) {date.TYPEA=1;
+
+                                                   BMOIS[12]=355;}
+
+     else date.TYPEA=0;
+
+      if(DT==0)   {date.MOIS=12;date.JOUR=29;}
+
+      else { for(I=0; I<12; I++)
+
+           {if ((BMOIS[I]<DT) && (DT<=BMOIS[I+1]))
+
+                {date.MOIS=I+1;date.JOUR=trunc(DT)-BMOIS[I]; }}}
+
+          }
+
+
+
+function NOMJOUR()
+
+  {  A=((eval(date.JJD)+2.5)/7)%1.0;
+
+     oar.JSEM=round(A*7);       }
+
+
+
+
+
+/*----------------------------------------------------------------*/
+
+
+
+
+
+ function FETEMUB(form)
+
+     /* Fonction fêtes religieuses musulmanes */
+
+     /*------------------------------------------------------------*/
+
+     /* Cette procédure calcule et affiche les fêtes musulmanes    */
+
+     /* pour une année grégorienne ou julienne donnée .            */
+
+     /* Auteurs : P. Rocher & DT. Vu                               */
+
+     /* Version 1.0  le vendredi 25 janvier 1991                   */
+
+     /*------------------------------------------------------------*/
+
+
+
+       {
+
+     tabf=new Array(0,101,110, 301,312,727, 901,917,920,
+
+      927,930,1001,1210,  10101,10110,10301, 10312,10727,10901,
+
+      10917,10920,10927, 10930,11001,11210,  20101,20110,20301,
+
+      20312,20727,20901);
+
+
+
+       /* # Jour de l'An # Achoura # Hégire # Naissance du Prophète #
+
+     Résurrection # Descente des feuillets du Coran # Bataille de
+
+     Bahr # Conquête de La Mecque # Révélation du Coran # Trentième
+
+     Ramadan # Petit Baïram # Grand Baïram ------------------ */
+
+
+
+                /* -----------------------------------------
+
+                Dans ce programme, AN,MOIS,JOUR sont utili-
+
+                sés alternativement dans deux calendriers.
+
+                La donnée AN grégorienne/julienne est rangée
+
+                dans la variable CODE1 et la variable CODE2
+
+                contient l'AN musulman courant.---------- */
+
+
+
+       /* Compter le nombre de fêtes : 12 à 16 */
+
+
+
+     oar.CODE1=date.AN; date.MOIS=1; date.JOUR=1;
+
+     if(date.AN<1583) {JULIENJ(); BISJ();}
+
+        else {JULIEN();  BISG();}
+
+     nbj=365+date.TYPEA;
+
+     JMUSUL(); oar.CODE2=date.AN; if(oar.CODE1==622)oar.CODE2=0;
+
+     mjour1=100*date.MOIS + date.JOUR;
+
+     date.JJD=date.JJD+nbj; JMUSUL(); mjour2=100*date.MOIS + date.JOUR;
+
+     i=0; while(mjour1>=tabf[i]) { i=i+1; } nb1=i;
+
+     i=0; while(mjour2>tabf[i]) i=i+1; nb2=i+12;
+
+     nbf=nb2-nb1; if(nbf<12)nbf=nbf+12;
+
+
+
+     /* --------------------------------
+
+      Fond d'écran : 12  fêtes (1)+(2);     13 fêtes (3+4+5);
+
+     14 fêtes (3+4+6) 15 fêtes (3+4+7);     16 fêtes (3+4+2);
+
+     ----------------------------------------------------------- */
+
+
+
+     if (oar.CODE1==622)nbf=4; if (oar.CODE1==1582)nbf=615;
+
+     if(nbf==12)
+
+      {
+
+          ibloc=0;
+
+      nbdeb=nb1; nbfin=nbdeb+6;
+
+      for (nb=nbdeb;nb<nbfin;nb++) {
+
+       date.AN=oar.CODE2; lot=tabf[nb];
+
+       if(lot>10000 && lot<20000){ date.AN=oar.CODE2+1; lot=lot-10000;}
+
+       if(lot>20000) { date.AN=oar.CODE2+2; lot=lot-20000;}
+
+       date.JOUR=lot%100; date.MOIS=trunc(lot/100); nof=nb;
+
+       AFFICMB(form,ibloc,nof); ibloc++;
+
+                          }
+
+       /* ibloc=0;   */
+
+      nbdeb=nbdeb+6; nbfin=nbfin+6;
+
+      for (nb=nbdeb;nb<nbfin;nb++) {
+
+       date.AN=oar.CODE2; lot=tabf[nb];
+
+       if(lot>10000 && lot<20000){ date.AN=oar.CODE2+1; lot=lot-10000;}
+
+       if(lot>20000) { date.AN=oar.CODE2+2; lot=lot-20000;}
+
+       date.JOUR=lot%100; date.MOIS=trunc(lot/100); nof=nb;
+
+       AFFICMB(form,ibloc,nof); ibloc++;
+
+                          }
+
+      }
+
+     else     /* ced nombre de fêtes nbf=13,14,15,16 */
+
+      {
+
+          ibloc=0;
+
+      nbdeb=nb1; nbfin=nbdeb+5;
+
+      for (nb=nbdeb;nb<nbfin;nb++) {
+
+       date.AN=oar.CODE2; lot=tabf[nb];
+
+       if(lot>10000 && lot<20000){ date.AN=oar.CODE2+1; lot=lot-10000;}
+
+       if(lot>20000) { date.AN=oar.CODE2+2; lot=lot-20000;}
+
+       date.JOUR=lot%100; date.MOIS=trunc(lot/100); nof=nb;
+
+       AFFICMB(form,ibloc,nof); ibloc++;
+
+                          }
+
+      /*  ibloc=0;     */
+
+      nbdeb=nbdeb+5; nbfin=nbfin+5;
+
+      for (nb=nbdeb;nb<nbfin;nb++) {
+
+       date.AN=oar.CODE2; lot=tabf[nb];
+
+       if(lot>10000 && lot<20000){ date.AN=oar.CODE2+1; lot=lot-10000;}
+
+       if(lot>20000) { date.AN=oar.CODE2+2; lot=lot-20000;}
+
+       date.JOUR=lot%100; date.MOIS=trunc(lot/100);  nof=nb;
+
+       AFFICMB(form,ibloc,nof); ibloc++;
+
+                          }
+
+      /* Pour le troisième écran : 4 cas : 13 | 14 | 15 | 16 */
+
+        /* ibloc=0;   */
+
+           nbdeb=nbdeb+5; nbfin=nbdeb+nbf-10;
+
+           for (nb=nbdeb;nb<nbfin;nb++) {
+
+           date.AN=oar.CODE2; lot=tabf[nb];
+
+       if(lot>10000 && lot<20000){ date.AN=oar.CODE2+1; lot=lot-10000;}
+
+       if(lot>20000) { date.AN=oar.CODE2+2; lot=lot-20000;}
+
+           date.JOUR=lot%100; date.MOIS=trunc(lot/100); nof=nb;
+
+           AFFICMB(form,ibloc,nof); ibloc++;
+
+                               }
+
+      }
+
+     date.AN=oar.CODE1;         /* restituer la donnée AN à la sortie */
+
+     }
+
+
+
+ function  AFFICMB(form,i,nof)
+
+  /*-----------------------------------------------------------*/
+
+ /*             fonction interne AFFICHMB                     */
+
+ /*-----------------------------------------------------------*/
+
+
+
+       {
+
+       NJOUR=new Array ("samedi","dimanche","lundi","mardi",
+
+                "mercredi","jeudi","vendredi");
+
+
+
+       datfet=new Array ( "nul",
+
+          " 1 Mouharram",     "10 Mouharram",
+
+          " 1 Rabi'-oul-Aououal",     "12 Rabi'-oul-Aououal",
+
+          "27 Radjab"," 1 Ramadan","17 Ramadan","20 Ramadan",
+
+          "27 Ramadan","30 Ramadan"," 1 Chaououal",
+
+          "10 Dou-l-Hidjja" );
+
+
+
+       lmoisg=new Array("null","janvier","février","mars","avril","mai","juin",
+
+               "juillet","août","septembre","octobre","novembre","décembre");
+
+
+
+     tf=new Array(0,101,110, 301,312,727, 901,917,920,
+
+      927,930,1001,1210,  10101,10110,10301, 10312,10727,10901,
+
+      10917,10920,10927, 10930,11001,11210,  20101,20110,20301,
+
+      20312,20727,20901);
+
+
+
+      nomfet=new Array("null",
+
+     "Jour de l'An         : ",
+
+     "'Achoura             : ",
+
+     "Fuite du Prophète à \r\nMédine (Hégire)      : ",
+
+     "Naissance du Prophète: ",
+
+     "Résurrection         : ",
+
+     "Descente des \r\nfeuillets du Coran   : ",
+
+     "Bataille de Badr     : ",
+
+     "Conquête de la Mecque: ",
+
+     "Révélation du Coran  : ",
+
+     "Trentième Ramadan    : ",
+
+     "Petit Baïram         : ",
+
+     "Grand Baïram         : ");
+
+
+
+   FETFIX=new Array(
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ",
+
+     "                       ","                    ");
+
+
+
+       ANM=oar.CODE2; lot=tf[nof];
+
+       if(lot>10000 && lot<20000){ ANM=oar.CODE2+1;}
+
+       if(lot>20000) { ANM=oar.CODE2+2;}
+
+
+
+     if(nof>12 && nof<25) nof=nof-12;
+
+     if(nof>24) nof=nof-24;
+
+     if(oar.CODE1==1582 && nof>6)li1=li1+1;
+
+
+
+  FETFIX[4*i]=nomfet[nof];    /*nom de la fête*/
+
+  MUSULJ(); NOMJOUR();
+
+  JJDATE();
+
+  FETFIX[4*i+1] = NJOUR[oar.JSEM] +
+
+  " " + date.JOUR + " " + lmoisg[date.MOIS] + " " + date.AN + "\r\n";
+
+  FETFIX[4*i+3] = "(" + datfet[nof] + " " + ANM + ")\r\n";
+
+  document.form.FIXE.value=document.form.FIXE.value + FETFIX[4*i] +
+
+           FETFIX[4*i+1] +
+
+           FETFIX[4*i+2] + FETFIX[4*i+3];
+
+       }
+
+/*----------------------------------------------------------------*/
+
+
+
+ function suivan(form) {
+
+date.AN=(form.nyear.value=="") ? "0" :eval(form.nyear.value);
+
+date.AN++;
+//Mil001 1945 au lieu de 1975
+ if (date.AN<1945 || date.AN>2050) {alert('hors limites');
+
+                                       date.AN--; return }
+
+form.nyear.value=date.AN;
+
+document.form.FIXE.value="";
+
+FETEMUB(form);
+
+}
+
+
+
+function preced(form) {
+
+date.AN=(form.nyear.value=="") ? "0" :eval(form.nyear.value);
+
+date.AN--;
+
+ if (date.AN<1945 || date.AN>2050) {alert('hors limites');
+
+                                       date.AN++; return }
+
+form.nyear.value=date.AN;
+
+document.form.FIXE.value="";
+
+FETEMUB(form);
+
+}
+
+
+
+function couran(form) {
+
+date.AN=(form.nyear.value=="") ? "0" :eval(form.nyear.value);
+
+ if (date.AN<1945 || date.AN>2050) { alert('hors limites');
+
+                                        return; }
+
+document.form.FIXE.value="";
+
+FETEMUB(form);
+
+}
+
+
+
+function dateinit(form) {
+
+Todays=new Date();
+
+/*selon les navigateurs la fonction getyear de Javascript
+
+  donne 100 ou 2000 (avant 2000 donnait toujours le millésime*/
+
+
+
+if (Todays.getFullYear() < 1000)
+
+ document.form.nyear.value=1900 + Todays.getFullYear();
+
+else
+
+ document.form.nyear.value=Todays.getFullYear();
+
+date.AN=eval(document.form.nyear.value);
+
+date.MOIS=eval(Todays.getMonth() +1);
+
+date.JOUR=eval(Todays.getDate());
+
+}
+
+
+
+// done hiding from old browsers -->
+
+   </SCRIPT>
+</HEAD>
+
+<BODY onLoad="dateinit(this.form)">
+
+<div id="bloc_page">
+
+	<header id="ancre">
+		<a href="../pages5/51.html">
+			<img class="image-bandeau" src="../images/new_image/bandeau.png" alt="" />
+		</a>
+
+<ul id="menu">
+    <li>
+        <a href="../pages3/37.html"><span class="police_chap">Encyclopédie</span> </a>
+
+        <ul>
+            <li><a href="../pages1/19.html">Caractéristiques <br /> des planètes</a></li>
+
+            <li>
+                <a href="../pages1/139.html">Choisir un corps céleste<br />dans le système solaire</a>
+                <ul>
+                    <li><a href="../pages1/131.html">Soleil</a></li>
+                    <li><a href="../pages6/82.html">Mercure</a></li>
+
+                    <li><a href="../pages1/152.html">Vénus</a></li>
+                    <li><a href="../pages1/176.html">Terre</a></li>
+
+                    <li><a href="../pages1/177.html">Lune</a></li>
+                    <li><a href="../pages6/70.html">Mars</a></li>
+
+                    <li><a href="../pages5/54.html">Jupiter</a></li>
+                    <li><a href="../pages1/119.html">Saturne</a></li>
+
+                    <li><a href="../pages1/148.html">Uranus</a></li>
+                    <li><a href="../pages6/89.html">Neptune</a></li>
+
+                    <li><a href="../pages1/110.html">Pluton</a></li>
+                    <li><a href="../pages6/9.html">Astéroides</a></li>
+
+                    <li><a href="../pages2/23.html">Comètes</a></li>
+
+                </ul>
+            </li>
+            <li><a href="../pages3/376.html">Le système solaire <br /> en chiffres</a></li>
+
+            <li><a href="../pages2/240.html">Origine des noms</a></li>
+
+            <li><a href="../pages2/257.html">Classification des corps</a></li>
+        </ul>
+
+    </li>
+    <li>
+        <a href="../pages3/32.html"><span class="police_chap">Découvertes</span> </a>
+        <ul>
+            <li><a href="../pages3/312.html">Astronomes célèbres</a></li>
+
+            <li><a href="../pages1/168.html">Dates importantes</a></li>
+
+            <li>
+                <a href="../pages1/168.html">Découvertes dans <br />le système solaire</a>
+                <ul>
+                    <li>
+                        <a href="../pages3/371.html">Soleil</a>
+                        <ul>
+                            <li>
+                                <a href="../pages3/374.html">Taches solaires</a>
+                            </li>
+
+                            <li>
+                                <a href="../pages1/133.html">Eclipses solaires</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages6/83.html">Mercure</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/83.html">Avance du périhélie</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../pages1/155.html">Vénus</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages1/155.html">Phases</a>
+                            </li>
+                            <li>
+                                <a href="../pages1/155.html">Rotations</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages1/183.html">Terre</a>
+                        <ul>
+                            <li>
+                                <a href="../pages1/183.html">Forme</a>
+                            </li>
+
+                            <li>
+                                <a href="../pages1/183.html">Mouvement</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages6/64.html">Lune</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/64.html">Cratères</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/64.html">Surface</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="../pages3/372.html">Mars</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages3/372.html">Surfaces</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/75.html">Canaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/76.html">Période de rotation</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/77.html">Satellites</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages5/56.html">Jupiter</a>
+                        <ul>
+                            <li>
+                                <a href="../pages5/56.html">Satellites</a>
+                            </li>
+                            <li>
+                                <a href="../pages5/57.html">Anneaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages5/58.html">Tache rouge</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="../pages1/124.html">Saturne</a>
+                        <ul>
+                            <li>
+                                <a href="../pages1/124.html">Anneaux</a>
+                            </li>
+                            <li>
+                                <a href="../pages2/256.html">Satellites</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/151.html">Uranus</a></li>
+                    <li>
+                        <a href="../pages6/91.html">Neptune</a>
+                        <ul>
+                            <li>
+                                <a href="../pages6/91.html">Orbitographie de <br />la planète</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/92.html">Satellites</a>
+                            </li>
+                            <li>
+                                <a href="../pages1/180.html">Anneaux</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/112.html">Pluton</a></li>
+
+                    <li><a href="../pages1/190.html">Astéroides</a></li>
+
+                    <li><a href="../pages2/25.html">Comètes</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+
+ <a href="../pages1/164.html"><span class="police_chap">Espace</span> </a>
+
+<ul>
+            <li><a href="../pages2/217.html">Historique</a></li>
+
+            <li>
+                <a href="../pages2/22.html">Site de lancement</a>
+                <ul>
+                    <li><a href="../pages1/18.html">Cap Kennedy</a></li>
+                    <li><a href="../pages6/60.html">Kourou</a></li>
+                    <li><a href="../pages1/14.html">Baikonour</a></li>
+                    <li><a href="../pages6/762.html">Autres centres spatiaux</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages2/217.html">Missions spatiales</a>
+                <ul>
+                    <li><a href="../pages5/5.html">Apollo</a></li>
+                    <li><a href="../pages6/69.html">Mariner</a></li>
+
+                    <li><a href="../pages1/159.html">Viking</a></li>
+                    <li><a href="../pages1/160.html">Voyager</a></li>
+
+                    <li><a href="../pages4/41.html">Galileo</a></li>
+                    <li><a href="../pages2/219.html">Soho</a></li>
+
+                    <li><a href="../pages6/672.html">Mars Express</a></li>
+                    <li><a href="../pages2/222.html">Cassini/Huygens</a></li>
+                    <li><a href="../pages6/669.html">Luna</a></li>
+
+                </ul>
+            </li>
+        </ul>
+
+    </li>
+
+
+    </li>
+
+    <li>
+        <a href="../pages1/114.html"><span class="police_chap">Observatoires</span> </a>
+
+        <ul>
+
+            <li>
+                <a href="../pages6/95.html">France</a>
+                <ul>
+                    <li><a href="../pages1/103.html">Observatoire de Paris</a>
+
+                        <ul>
+                            <li>
+                                <a href="../pages2/245.html">L'Institut de Mécanique <br />Céleste et des Calculs <br />en Ephémérides/IMCCE</a>
+                            </li>
+                            <li>
+                                <a href="../pages6/86.html">Observatoire de Meudon</a>
+                            </li>
+                            <li>
+                                <a href="../pages2/281.html">Nançay</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="../pages1/107.html">Pic du Midi</a></li>
+                    <li><a href="../pages6/96.html">Haute Provence</a></li>
+                    <li><a href="../pages2/267.html">Besançon</a></li>
+                    <li><a href="../pages2/268.html">Bordeaux</a></li>
+                    <li><a href="../pages2/269.html">Côte d'Azur</a></li>
+                    <li><a href="../pages2/270.html">Grenoble</a></li>
+                    <li><a href="../pages2/274.html">Lyon</a></li>
+                    <li><a href="../pages2/271.html">Marseille</a></li>
+                    <li><a href="../pages2/272.html">Strasbourg</a></li>
+                    <li><a href="../pages2/273.html">Toulouse</a></li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages6/833.html">Europe</a>
+                <ul>
+                    <li><a href="../pages2/247.html">Greenwich</a></li>
+                    <li><a href="../pages6/822.html">Bruxelles</a></li>
+                    <li><a href="../pages6/823.html">Turin</a></li>
+                    <li><a href="../pages6/824.html">Castel Gandolfo</a></li>
+                    <li><a href="../pages6/825.html">Catane</a></li>
+                    <li><a href="../pages6/826.html">San Fernando</a></li>
+                    <li><a href="../pages6/827.html">Bucarest</a></li>
+                    <li><a href="../pages6/828.html">Poznan</a></li>
+                    <li><a href="../pages6/823.html">Nikolaev</a></li>
+                    <li><a href="../pages2/248.html">Pulkovo</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages2/246.html">Autres</a>
+                <ul>
+                    <li><a href="../pages2/249.html">Washington D.C.</a></li>
+                    <li><a href="../pages6/99.html">Mont Palomar</a></li>
+                    <li><a href="../pages1/165.html">Zélenchuk</a></li>
+                    <li><a href="../pages6/830.html">Shanghai</a></li>
+                    <li><a href="../pages6/831.html">Itajuba</a></li>
+                    <li><a href="../pages6/78.html">CFHT Hawai</a></li>
+                    <li><a href="../pages3/305.html">Iles canaries: THEMIS</a></li>
+                    <li><a href="../pages6/61.html">ESO</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages5/580.html">Les plus grands <br /> télescopes</a>
+                <ul>
+                      <li><a href="../pages5/580.html">Les réflecteurs</a></li>
+                      <li><a href="../pages5/581.html">Les réfracteurs</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">Observatoires spatiaux</a>
+                <ul>
+                    <li><a href="../pages4/48.html">HST</a></li>
+                    <li><a href="../pages6/679.html">GAIA</a></li>
+                    <li><a href="../pages2/219.html">SOHO</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+<li><a href="../pages2/258.html"><span class="police_chap">Comprendre</span> </a>
+          <ul>
+            <li><a href="../pages2/216.html">Astronomie de position</a>
+                <ul>
+                    <li><a href="../pages2/279.html">Calendriers</a></li>
+                    <li><a href="../pages3/321.html">Phénomènes <br />astronomiques</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../pages3/322.html">Ephémérides</a>
+                <ul>
+                    <li><a href="../pages3/370.html">Lever et coucher</a></li>
+                    <li><a href="../pages5/584.html">Positions</a></li>
+                </ul>
+            </li>
+
+                    <li><a href="../pages2/243.html">Concepts fondamentaux</a></li>
+                    <li><a href="../pages5/523.html">Constantes fondamentales</a></li>
+                    <li><a href="../pages2/259.html">Approfondir</a></li>
+                    <li><a href="../pages2/291.html">Histoire de l'astronomie</a></li>
+
+                    <li><a href="../pages2/221.html">Glossaire</a></li>
+                    <li><a href="../pages4/475.html">Enseigner</a></li>
+                    <li><a href="../pages2/201.html">Index</a></li>
+                    <li><a href="../pages1/188.html">Guide</a></li>
+
+        </ul>
+</li>
+</ul>
+  
+  
+ </header>
+
+    <br />
+
+  
+ <section>
+<!--	<div id="gauche-gauche">
+  <p>&nbsp;</p>
+	</div>-->
+	<div id="gauche">
+	 
+	     <a href="../pages5/553.html"><img id="P1" src="../images/new_image/page_precedente.png" alt="" /></a><a href="../pages4/439.html"><img id="P2" src="../images/new_image/page_suivante.png" alt="" /></a>
+	     <a href="../pages2/279.html"><img id="S1" src="../images/new_image/section_precedente.png" alt="" /></a><a href="../pages4/439.html"><img id="S2" src="../images/new_image/section_suivante.png" alt="" /></a>	
+	   	     
+	     <br />
+
+	     <a href="#ancre"><div id="plus">Haut de page</div></a> 
+ 	     <a href="../pages2/221.html"><div id="glossaire">Glossaire</div></a> 
+ 	     <a href="../pages2/201.html"><div id="index">Index</div></a> 
+ 	     <a href="../pages2/279.html"><div id="long1">Retour page Calendriers<img id="P1" src="../images/new_image/page_precedente.png" alt="" /></div></a>
+	     <a href="../pages4/439.html"><div id="long1">Début des saisons <img id="P2" src="../images/new_image/page_suivante.png" alt="" /></div></a>
+	</div>
+
+
+
+	<div id="droite">
+<span class="fontsize">
+    <a class="LinkIn box1" title="Réduire la taille du texte du contenu" href="#"><img class="contour-print" alt="Réduire la taille du texte du contenu" onclick="changerTaille(-0.1); return false;" src="../images/new_image/dim-police.png"></a>
+    <a class="LinkIn box1" title="Agrandir la taille du texte du contenu" href="#"><img class="contour-print" alt="Agrandir la taille du texte du contenu" onclick="changerTaille(0.1); return false;" src="../images/new_image/aug-police.png"></a>
+    <a class="LinkIn box1" title="Imprimer cette page" href="#"><img class="contour-print" alt="Imprimer cette page" onclick="window.print(); return false;" src="../images/new_image/printer.png"></a>
+</span>
+
+ 
+  
+ <span class="fontsize-en">
+    <a class="LinkIn-en" title="English" href="../../en/pages5/554.html">English</a>
+</span>
+
+	    <p id="position"><A class=" box1" HREF="../pages2/258.html">Comprendre </A>><A class=" box1"  HREF="../pages2/216.html"> Calculs astronomiques</A> > <A class=" box1"  HREF="../pages2/279.html">Calendriers</a> XII</p>
+
+
+<H1>Fêtes musulmanes</H1>
+<H1>dans le calendrier grégorien</H1>
+<br /><br />
+
+<FORM NAME="form" method="post" action="JavaScript:couran(this.form)">
+<PRE>&nbsp; ANNÉE GRÉGORIENNE&nbsp;:&nbsp;&nbsp;<INPUT TYPE="number" min="1945" max="2050" NAME="nyear" 
+
+style="width: 5em; background-color: OldLace">&nbsp;<!--  <input TYPE="text"
+
+                                      NAME="trace" SIZE="25"> -->
+
+&nbsp;(entre 1945 et 2050)
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button"
+
+VALUE="Calcul" ONCLICK="couran(this.form)">&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button"
+
+VALUE="Année précédente" onClick="preced(this.form)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="button"
+
+VALUE="Année suivante" onClick="suivan(this.form)"></PRE>
+
+<PRE>&nbsp;&nbsp;<TEXTAREA NAME="FIXE" ROWS="32" COLS="52" WRAP="virtual"
+
+STYLE="font-family: Courier;
+
+background-color: rgb(248,248,248); color: rgb(128,0,0);
+
+border-left: thin dotted rgb(136,68,0); border-right: thin dotted; border-top:
+
+thin dotted; border-bottom: thin dotted"></TEXTAREA></PRE>
+</FORM>
+
+<p>Les dates entre parenthèses sont les dates dans le calendrier musulman.</p>
+	</div>
+
+<br /><br />
+
+</section>
+
+
+<footer>
+
+  <div>
+    <a href="../pages1/166.html"> Plan du site</a>&nbsp;&nbsp;&nbsp;<a href="../pages1/189.html"> Copyright</a>
+  </div>
+</footer>
+
+    </div>
+  </BODY>
+</HTML>
