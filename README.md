@@ -13,6 +13,10 @@ Malheureusement, les applications de correspondance entre calendriers, de calcul
 Un simple toilettage informatique d'une dizaine des pages web du service actuel permet de corriger les erreurs les plus flagrantes et gênantes, 
 en attendant de proposer un service entièrement nouveau. C'est cette solution que nous proposons ici.
 
+## Liste des corrections
+
+Les corrections opérées sont listées dans le fichier [Corrections.md](./Corrections.md)
+
 ## Consultation
 
 Une maquette de la dizaine de pages corrigées est accessible via le site GitHub Pages associé à ce dépôt.
