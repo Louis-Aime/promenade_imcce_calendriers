@@ -19,7 +19,7 @@ Les corrections opérées sont listées dans le fichier [Corrections.md](./Corre
 
 ## Consultation
 
-Une maquette de la dizaine de pages corrigées est accessible via le site GitHub Pages associé à ce dépôt.
+Une maquette de la dizaine de pages corrigées est accessible via le [site GitHub Pages associé à ce dépôt](https://louis-aime.github.io/promenade_imcce_calendriers/).
 
 ## Intégration dans l'application originale
 
