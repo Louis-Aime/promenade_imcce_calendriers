@@ -328,7 +328,7 @@ function affcc(form)
   NOMJOUR();
   form.jsem.value=ljour[oar.JSEM];
   form.jjul.value=eval(date.JJD+0.5);
-  /*gr�gorien*/
+  /*grégorien*/
   if (date.JJD<2299160.5) form.calgre.value="pas en usage à cette date";
   else {  JJDATE(); BISG();
         form.calgre.value=" " + date.JOUR + " " +
